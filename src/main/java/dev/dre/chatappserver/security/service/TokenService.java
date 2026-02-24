@@ -6,11 +6,12 @@ import org.springframework.stereotype.Service;
 public class TokenService {
 
     public boolean validateToken(String token) {
-        if (token == null || !token.startsWith("Bearer ")) {
+        if (token.isBlank() || !token.startsWith("Bearer ")) {
             return false;
         }
+        String actualToken = token.substring(7);
 
-        return token.equals("token");
+        return actualToken.equals("token");
     }
     //todo
     // - JWT verification
