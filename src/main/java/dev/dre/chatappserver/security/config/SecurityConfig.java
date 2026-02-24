@@ -1,4 +1,4 @@
-package security.config;
+package dev.dre.chatappserver.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -6,8 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import security.Interceptor.JwtAuthenticationFilter;
-import security.service.TokenService;
+import dev.dre.chatappserver.security.Interceptor.JwtAuthenticationFilter;
+import dev.dre.chatappserver.security.service.TokenService;
 
 @Configuration
 @EnableWebSecurity

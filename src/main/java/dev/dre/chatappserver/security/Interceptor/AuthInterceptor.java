@@ -1,11 +1,11 @@
-package security.Interceptor;
+package dev.dre.chatappserver.security.Interceptor;
 
 import dev.dre.chatappserver.ChatAppServerApplication;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
-import security.service.TokenService;
+
 @Deprecated
 @Configuration
 public class AuthInterceptor implements HandlerInterceptor {
