@@ -9,9 +9,8 @@ public class TokenService {
         if (token.isBlank() || !token.startsWith("Bearer ")) {
             return false;
         }
-        String actualToken = token.substring(7);
 
-        return actualToken.equals("token");
+        return token.equals("token");
     }
     //todo
     // - JWT verification
