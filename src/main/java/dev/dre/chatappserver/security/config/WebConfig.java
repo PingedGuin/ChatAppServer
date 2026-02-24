@@ -1,6 +1,6 @@
-package security.config;
+package dev.dre.chatappserver.security.config;
 
-import security.Interceptor.AuthInterceptor;
+import dev.dre.chatappserver.security.Interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

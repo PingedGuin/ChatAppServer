@@ -1,4 +1,4 @@
-package security.Interceptor;
+package dev.dre.chatappserver.security.Interceptor;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import security.service.TokenService;
+import dev.dre.chatappserver.security.service.TokenService;
 
 import java.io.IOException;
 import java.util.List;
