@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RegisterController {
-    @PostMapping("/api/register")
+    @PostMapping("/api/auth/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
 
         ChatAppServerApplication.getDatabase().addInfo(request.getUsername(), request);

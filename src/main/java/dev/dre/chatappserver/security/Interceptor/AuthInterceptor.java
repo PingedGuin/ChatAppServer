@@ -18,9 +18,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        String actualToken = token.substring(7);
-
-        if (ChatAppServerApplication.getTokenService().validateToken(actualToken)) return true;
+        if (ChatAppServerApplication.getTokenService().validateToken(token)) return true;
 
         response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid token");
         return false;

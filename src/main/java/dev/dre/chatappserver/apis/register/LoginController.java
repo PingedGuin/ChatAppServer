@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 public class LoginController {
-    @GetMapping("/api/login")
+    @GetMapping("/api/auth/login")
     public ResponseEntity<?> login(@Valid @RequestHeader("Authorization") String token, @RequestBody LoginRequest request) {
         if (ChatAppServerApplication.getDatabase().isUserExist(request.getUsername())){
             return ResponseEntity.ok().body("logged in");
