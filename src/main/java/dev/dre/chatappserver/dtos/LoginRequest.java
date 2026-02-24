@@ -1,10 +1,10 @@
 package dev.dre.chatappserver.dtos;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
 
 @NotBlank
-@Data
+@Getter
 public class LoginRequest {
     String username;
     String password;
