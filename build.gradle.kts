@@ -38,7 +38,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation ("com.h2database:h2")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-
+    implementation ("org.springframework.boot:spring-boot-starter-security")
 }
 
 tasks.withType<Test> {

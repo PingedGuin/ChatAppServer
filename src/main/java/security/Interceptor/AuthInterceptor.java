@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 import security.service.TokenService;
-
+@Deprecated
 @Configuration
 public class AuthInterceptor implements HandlerInterceptor {
     @Override
