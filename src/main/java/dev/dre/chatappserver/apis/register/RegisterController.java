@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegisterController {
     @PostMapping("/api/auth/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-
+        System.out.println(request);
         ChatAppServerApplication.getDatabase().addInfo(request.getUsername(), request);
         return ResponseEntity.ok().body("new user registered");
     }
