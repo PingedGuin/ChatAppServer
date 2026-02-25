@@ -12,6 +12,9 @@ public class TokenService {
 
         return token.equals("token");
     }
+    public String generateToken(String username) {
+        return "token";
+    }
     //todo
     // - JWT verification
     // - DB lookup
