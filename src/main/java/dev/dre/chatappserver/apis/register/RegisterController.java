@@ -1,7 +1,7 @@
 package dev.dre.chatappserver.apis.register;
 
 import dev.dre.chatappserver.ChatAppServerApplication;
-import dev.dre.chatappserver.dtos.RegisterRequest;
+import dev.dre.chatappserver.dtos.register.RegisterRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

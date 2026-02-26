@@ -13,6 +13,10 @@ public class TokenService {
     public String generateToken(String username) {
         return "token";
     }
+    public String extractUserId(String token){
+
+        return "1";
+    }
     //todo
     // - JWT verification
     // - DB lookup

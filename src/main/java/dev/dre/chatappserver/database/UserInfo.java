@@ -1,6 +1,6 @@
 package dev.dre.chatappserver.database;
 
-import dev.dre.chatappserver.dtos.RegisterRequest;
+import dev.dre.chatappserver.dtos.register.RegisterRequest;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

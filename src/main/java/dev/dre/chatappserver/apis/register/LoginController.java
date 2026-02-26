@@ -1,7 +1,7 @@
 package dev.dre.chatappserver.apis.register;
 
 import dev.dre.chatappserver.ChatAppServerApplication;
-import dev.dre.chatappserver.dtos.LoginRequest;
+import dev.dre.chatappserver.dtos.register.LoginRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
