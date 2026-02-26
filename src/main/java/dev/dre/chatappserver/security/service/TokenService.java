@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 public class TokenService {
 
     public boolean validateToken(String token) {
-        if (token.isBlank() || !token.startsWith("Bearer ")) {
-            return false;
-        }
+        if (token.isBlank()) return false;
 
         return token.equals("token");
     }

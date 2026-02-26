@@ -29,6 +29,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String jwt = null;
 
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            jwt = header.substring(7);
+        }
+
         if (request.getCookies() != null) {
             for (Cookie c : request.getCookies()) {
                 if ("jwt".equals(c.getName())) {
