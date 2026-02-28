@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @NoArgsConstructor
 @Data
 @Entity
@@ -22,6 +24,18 @@ public class UserSessionEntity {
 
     @Column(nullable = false)
     private boolean active;
+
+    @Column(nullable = false)
+    private Timestamp createdAt;
+
+    @Column(nullable = false)
+    private Timestamp expiresAt;
+
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.expiresAt = new Timestamp(System.currentTimeMillis() + 3600000);
+    }
 
     public UserSessionEntity(String userId, String sessionId, boolean active) {
         this.userId = userId;
