@@ -1,4 +1,4 @@
-package dev.dre.chatappserver.security.service;
+package dev.dre.chatappserver.security.auth.service;
 
 import org.springframework.stereotype.Service;
 

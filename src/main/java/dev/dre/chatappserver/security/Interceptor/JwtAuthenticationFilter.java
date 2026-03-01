@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import dev.dre.chatappserver.security.service.TokenService;
+import dev.dre.chatappserver.security.auth.service.TokenService;
 import jakarta.servlet.http.Cookie;
 
 import java.io.IOException;

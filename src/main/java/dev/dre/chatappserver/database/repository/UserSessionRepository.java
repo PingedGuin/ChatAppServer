@@ -1,4 +1,4 @@
-package dev.dre.chatappserver.security.sessions;
+package dev.dre.chatappserver.database.repository;
 
 import dev.dre.chatappserver.database.entitys.UserSessionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
