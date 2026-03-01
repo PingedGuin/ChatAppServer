@@ -17,7 +17,7 @@ public class LoginService {
     }
 
     public LoginResponseDto login(LoginDto request) {
-        if (request == null && !userInfoRepository.isUserExist(request)) {
+        if (request == null || !userInfoRepository.isUserExist(request)) {
             return null;
         }
         String token = tokenService.generateToken(request.getUsername());
