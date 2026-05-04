@@ -21,10 +21,10 @@ public class PermissionService {
             .expireAfterWrite(15, TimeUnit.MINUTES)
             .build();
 
-    public Long getPermissions(ChannelDto channel,ChannelPermsDto channelPerms,MemberPermissionDto memberPerms) {
+    public Long getPermissions(ChannelPermsDto channelPerms,MemberPermissionDto memberPerms) {
         String cacheKey = String.format("perm:%s:%s:%s",
                 memberPerms.getGuildId(),
-                channel.getChannelId(),
+                channelPerms.getChannelId(),
                 memberPerms.getUserId());
 
         Long cachedPerm = cache.getIfPresent(cacheKey);
@@ -65,13 +65,10 @@ public class PermissionService {
 
         return effectivePermissions;
     }
-
-    public boolean isMemberAllowed() {
-
-        return false;
-    }
-
     public boolean isMemberAllowed(ChannelPermsDto channelPerms,MemberPermissionDto memberPerms) {
         return true;
+    }
+    public void evictPermissions(String guildId, Long channelId, Long userId) {
+        cache.invalidate("perm:" + guildId + ":" + channelId + ":" + userId);
     }
 }

@@ -9,6 +9,8 @@ import java.util.Map;
 @Data
 public class ChannelPermsDto {
     String key;
+    String channelId;
+    String guildId;
     private Map<Long, RoleOverride> roleOverrideMap;
     private MemberOverride memberOverride;
 
