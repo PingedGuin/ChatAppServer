@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class LoadMessagesRequest {
-    private String channelId;
+    private Long channelId;
     private int pageSize;
     private int pageNumber;
 }

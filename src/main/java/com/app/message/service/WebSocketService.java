@@ -3,6 +3,7 @@ package com.app.message.service;
 import com.app.message.data.dto.ChatMessageDto;
 import com.app.websocket.Session;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.socket.TextMessage;
 
+@Slf4j
 @Service
 @Getter
 public class WebSocketService {
@@ -44,7 +46,7 @@ public class WebSocketService {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Failed to send message",e);
         }
     }
 

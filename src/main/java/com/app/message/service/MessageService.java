@@ -110,13 +110,13 @@ public class MessageService {
         return dto;
     }
 
-    private long getVersion(String channelId) {
-        Long version = channelVersion.getIfPresent(channelId);
+    private long getVersion(Long channelId) {
+        Long version = channelVersion.getIfPresent(String.valueOf(channelId));
         return version != null ? version : 0L;
     }
 
-    private void bumpVersion(String channelId) {
-        channelVersion.put(channelId, getVersion(channelId) + 1);
+    private void bumpVersion(Long channelId) {
+        channelVersion.put(String.valueOf(channelId), getVersion(channelId) + 1);
     }
 
 // 1. check if user banned

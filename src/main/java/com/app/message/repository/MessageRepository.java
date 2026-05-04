@@ -21,7 +21,7 @@ WHERE m.channelId = :channelId
 ORDER BY m.createdAt DESC
 """)
     List<MessageEntity> getGeneralMessages(
-            @Param("channelId") String channelId,
+            @Param("channelId") Long channelId,
             Pageable pageable
     );
 }

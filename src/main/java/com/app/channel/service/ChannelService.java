@@ -3,6 +3,8 @@ package com.app.channel.service;
 import com.app.channel.Entity.ChannelEntity;
 import com.app.channel.repository.ChannelRepository;
 import com.app.guild.permission.data.dto.ChannelPermsDto;
+import com.app.guild.permission.engine.PermissionService;
+import com.app.guild.service.GuildService;
 import com.app.member.entity.MemberOverride;
 import com.app.message.data.dto.chat.command.ChatRequest;
 import com.app.message.service.WebSocketService;
@@ -22,9 +24,14 @@ import java.util.stream.Collectors;
 public class ChannelService {
     private final ChannelRepository channelRepository;
     private final WebSocketService webSocketService;
-    public ChannelService(ChannelRepository repository, WebSocketService webSocketService) {
+    private final GuildService guildService;
+    private final PermissionService permissionService;
+
+    public ChannelService(ChannelRepository repository, WebSocketService webSocketService, GuildService guildService, PermissionService permissionService) {
         this.channelRepository = repository;
         this.webSocketService = webSocketService;
+        this.guildService = guildService;
+        this.permissionService = permissionService;
     }
 
     private final Cache<String, ChannelEntity> cacheEntity = Caffeine.newBuilder()
@@ -64,15 +71,23 @@ public class ChannelService {
 
         return new ChannelPermsDto(channel.getGuildId(), channel.getId(), roleOverrides, memberOverride.orElse(null));
     }
+
     public void checkUserPerms(ChatRequest request) {
-        if (request == null){
+        if (request == null) {
             log.error("request is null");
             return;
         }
-        var channelPerms = getChannelPermissions(request.getGuildId(),request.getChannelId(),request.getUserId());
-        webSocketService.joinChannel(request.getChannelId(),request.getUserId());
-    }
+        Long guildId = request.getGuildId();
+        Long channelId = request.getChannelId();
+        Long userId = request.getUserId();
 
+        var channelPerms = getChannelPermissions(guildId, channelId, userId);
+        var memberPerms = guildService.getMemberPerms(guildId, userId);
+        if (permissionService.isMemberAllowed(channelPerms,memberPerms)){
+
+        }
+        webSocketService.joinChannel(channelId, userId);
+    }
 
     public void evictChannel(String guildId, Long channelId) {
         cacheEntity.invalidate("channel:" + guildId + ":" + channelId);

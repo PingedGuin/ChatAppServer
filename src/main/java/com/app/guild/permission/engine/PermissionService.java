@@ -75,4 +75,13 @@ public class PermissionService {
 
         return effectivePermissions;
     }
+
+    public boolean isMemberAllowed() {
+
+        return false;
+    }
+
+    public boolean isMemberAllowed(ChannelPermsDto channelPerms,MemberPermissionDto memberPerms) {
+        return true;
+    }
 }

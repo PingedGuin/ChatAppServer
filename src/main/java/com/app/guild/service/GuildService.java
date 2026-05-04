@@ -5,6 +5,7 @@ import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.mapping.GuildMapper;
 import com.app.guild.repository.GuildRepository;
 import com.app.role.dto.RoleDto;
+import com.app.user.data.dto.MemberPermissionDto;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,9 @@ public class GuildService {
         guildCache.put(guildId, mapped);
         return mapped;
     }
+    public MemberPermissionDto getMemberPerms(Long guildId, Long userId) {
+        return null;
+    }
 
     public List<RoleDto> getAllRoles(Long guildId) {
         return getGuild(guildId).getRoles();
@@ -67,4 +71,6 @@ public class GuildService {
     public Boolean unbanMember(Long guildId, Long userId) {
         return false;
     }
+
+
 }

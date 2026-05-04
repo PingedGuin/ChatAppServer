@@ -17,10 +17,10 @@ public class MessageEntity {
     private String content;
 
     @Column(name = "guild_id")
-    private String guildId;
+    private Long guildId;
 
     @Column(name = "channel_id")
-    private String channelId;
+    private Long channelId;
 
     @Column(name = "senderId")
     private Long senderId;
