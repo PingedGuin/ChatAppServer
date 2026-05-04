@@ -37,16 +37,19 @@ public class ChannelService {
     private final Cache<String, ChannelEntity> cacheEntity = Caffeine.newBuilder()
             .maximumSize(50000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
+            .recordStats()
             .build();
 
     private final Cache<String, Optional<MemberOverride>> memberOverridePermsCache = Caffeine.newBuilder()
             .maximumSize(200_000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
+            .recordStats()
             .build();
 
     private final Cache<Long, Map<Long, RoleOverride>> cacheOverrideRolesPerms = Caffeine.newBuilder()
             .maximumSize(50000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
+            .recordStats()
             .build();
 
 
@@ -81,11 +84,13 @@ public class ChannelService {
         Long channelId = request.getChannelId();
         Long userId = request.getUserId();
 
-        var channelPerms = getChannelPermissions(guildId, channelId, userId);
-        var memberPerms = guildService.getMemberPerms(guildId, userId);
-        if (permissionService.isMemberAllowed(channelPerms,memberPerms)){
+//        var channelPerms = getChannelPermissions(guildId, channelId, userId);
+//        var memberPerms = guildService.getMemberPerms(guildId, userId);
+//        if (permissionService.isMemberAllowed(channelPerms,memberPerms)){
+//
+//        }
 
-        }
+
         webSocketService.joinChannel(channelId, userId);
     }
 

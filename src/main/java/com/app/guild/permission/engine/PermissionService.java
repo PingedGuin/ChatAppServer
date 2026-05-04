@@ -1,6 +1,5 @@
 package com.app.guild.permission.engine;
 
-import com.app.channel.data.ChannelDto;
 import com.app.guild.permission.data.Permission;
 import com.app.guild.permission.data.dto.ChannelPermsDto;
 import com.app.role.dto.RoleDto;
@@ -66,7 +65,7 @@ public class PermissionService {
         return effectivePermissions;
     }
     public boolean isMemberAllowed(ChannelPermsDto channelPerms,MemberPermissionDto memberPerms) {
-        return true;
+        return true; //todo implement
     }
     public void evictPermissions(String guildId, Long channelId, Long userId) {
         cache.invalidate("perm:" + guildId + ":" + channelId + ":" + userId);

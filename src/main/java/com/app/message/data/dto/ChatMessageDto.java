@@ -13,6 +13,7 @@ import java.time.Instant;
 public class ChatMessageDto {
     private Long senderId;
     private Long channelId;
+    String channelName;
     private Long guildId;
     private String type;
     private String content;
