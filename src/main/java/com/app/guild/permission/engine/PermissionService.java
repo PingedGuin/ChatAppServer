@@ -1,11 +1,8 @@
 package com.app.guild.permission.engine;
 
 import com.app.channel.data.ChannelDto;
-import com.app.channel.service.ChannelService;
 import com.app.guild.permission.data.Permission;
 import com.app.guild.permission.data.dto.ChannelPermsDto;
-import com.app.member.dto.MemberDto;
-import com.app.member.service.MemberService;
 import com.app.role.dto.RoleDto;
 import com.app.role.entity.RoleOverride;
 import com.app.user.data.dto.MemberPermissionDto;
@@ -18,31 +15,24 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class PermissionService {
-    private final ChannelService channelService;
-    private final MemberService memberService;
 
     private final Cache<String, Long> cache = Caffeine.newBuilder()
             .maximumSize(100_000)
             .expireAfterWrite(15, TimeUnit.MINUTES)
             .build();
 
-    public PermissionService(ChannelService channelService, MemberService memberService) {
-        this.channelService = channelService;
-        this.memberService = memberService;
-    }
-
-    public Long getPermissions(MemberDto memberBasicData, ChannelDto channel) {
+    public Long getPermissions(ChannelDto channel,ChannelPermsDto channelPerms,MemberPermissionDto memberPerms) {
         String cacheKey = String.format("perm:%s:%s:%s",
-                memberBasicData.getGuildId(),
+                memberPerms.getGuildId(),
                 channel.getChannelId(),
-                memberBasicData.getUserId());
+                memberPerms.getUserId());
 
         Long cachedPerm = cache.getIfPresent(cacheKey);
         if (cachedPerm != null) return cachedPerm;
 
-        MemberPermissionDto member = memberService.getMemberContext(memberBasicData.getUserId(), memberBasicData.getGuildId());
-        var channelContext = channelService.getChannelPermissions(member.getGuildId(), channel.getChannelId(), member.getUserId());
-        Long perm = calculatePermissions(member, channelContext);
+      //  MemberPermissionDto member = memberService.getMemberContext(memberBasicData.getUserId(), memberBasicData.getGuildId());
+      //  channelPerms = channelService.getChannelPermissions(member.getGuildId(), channel.getChannelId(), member.getUserId());
+        Long perm = calculatePermissions(memberPerms, channelPerms);
         cache.put(cacheKey, perm);
         return perm;
     }

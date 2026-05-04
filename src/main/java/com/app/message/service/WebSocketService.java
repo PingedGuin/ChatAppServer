@@ -16,15 +16,15 @@ import org.springframework.web.socket.TextMessage;
 @Service
 @Getter
 public class WebSocketService {
-    private final Map<Long, Session> sessions = new ConcurrentHashMap<>();
+    private final Map<String, Session> sessions = new ConcurrentHashMap<>();
     private final Map<Long, Set<Long>> channelUsers = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void addSession(Long userId, Session session) {
+    public void addSession(String userId, Session session) {
         sessions.put(userId, session);
     }
 
-    public void removeSession(Long userId) {
+    public void removeSession(String userId) {
         sessions.remove(userId);
     }
 
