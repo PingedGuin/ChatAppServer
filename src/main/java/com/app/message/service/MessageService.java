@@ -25,7 +25,7 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final Cache<String, Long> channelVersion = Caffeine.newBuilder()
             .maximumSize(100_00)
-            .expireAfterWrite(10,TimeUnit.MINUTES)
+            .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
     private final Cache<String, List<ChatMessageDto>> msgCache = Caffeine.newBuilder()
             .maximumSize(100_000)
@@ -37,6 +37,7 @@ public class MessageService {
         this.webSocketService = webSocketService;
         this.messageRepository = messageRepository;
     }
+
     @Transactional
     public void handleSendMsgReq(ChatMessageDto context) {
         policyEngine.check(context);
@@ -49,7 +50,7 @@ public class MessageService {
             bumpVersion(context.getChannelId());
 
             webSocketService.sendMessage(dto);
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("Failed to save message", e);
             throw new RuntimeException("Message send failed", e);
         }
