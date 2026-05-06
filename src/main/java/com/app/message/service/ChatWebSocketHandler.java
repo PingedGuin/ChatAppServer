@@ -1,6 +1,6 @@
 package com.app.message.service;
 
-import com.app.message.data.dto.ChatMessageDto;
+import com.app.policy.data.PolicyContext;
 import com.app.websocket.Session;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +34,9 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(@NonNull WebSocketSession session, TextMessage message) {
         String payload = message.getPayload();
-        ChatMessageDto dto;
+        PolicyContext dto;
         try {
-            dto = objectMapper.readValue(payload, ChatMessageDto.class);
+            dto = objectMapper.readValue(payload, PolicyContext.class);
         } catch (Exception e) {
             log.error("Error parsing message: {}", payload, e);
             return;

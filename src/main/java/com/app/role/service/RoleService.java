@@ -32,7 +32,7 @@ public class RoleService {
 //    Validate Creation Rules
 //    Protect System Roles
 //            Mapping
-//    Entity ↔ DTO
+//    entity ↔ DTO
 //    Not in RoleService
 //    Member Permissions
 //    Channel Logic

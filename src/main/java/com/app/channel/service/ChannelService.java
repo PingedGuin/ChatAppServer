@@ -1,6 +1,6 @@
 package com.app.channel.service;
 
-import com.app.channel.Entity.ChannelEntity;
+import com.app.channel.entity.ChannelEntity;
 import com.app.channel.repository.ChannelRepository;
 import com.app.guild.permission.data.dto.ChannelPermsDto;
 import com.app.guild.permission.engine.PermissionService;

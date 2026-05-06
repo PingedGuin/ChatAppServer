@@ -1,7 +1,7 @@
 package com.app.message.config;
 
-import com.app.message.data.dto.ChatMessageDto;
 import com.app.message.service.WebSocketService;
+import com.app.policy.data.PolicyContext;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 @Deprecated
@@ -17,7 +17,7 @@ public class RedisSubscriber {
     }
     public void onMessage(String message) {
         try {
-            ChatMessageDto dto = objectMapper.readValue(message, ChatMessageDto.class);
+            PolicyContext dto = objectMapper.readValue(message, PolicyContext.class);
             webSocketService.sendMessage(dto);
         } catch (Exception e) {
             e.printStackTrace();

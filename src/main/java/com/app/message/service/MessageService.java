@@ -1,10 +1,11 @@
 package com.app.message.service;
 
-import com.app.message.data.dto.ChatMessageDto;
 import com.app.message.data.dto.LoadMessagesRequest;
 import com.app.message.data.entity.MessageEntity;
 import com.app.message.repository.MessageRepository;
 import com.app.policy.PolicyEngine;
+import com.app.policy.data.PolicyContext;
+import com.app.policy.policies.channel.context.SendMessageContent;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,7 @@ public class MessageService {
             .maximumSize(100_00)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
-    private final Cache<String, List<ChatMessageDto>> msgCache = Caffeine.newBuilder()
+    private final Cache<String, List<PolicyContext>> msgCache = Caffeine.newBuilder()
             .maximumSize(100_000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
@@ -39,14 +40,14 @@ public class MessageService {
     }
 
     @Transactional
-    public void handleSendMsgReq(ChatMessageDto context) {
+    public void handleSendMsgReq(SendMessageContent context) {
         policyEngine.check(context);
 
         MessageEntity messageEntity = toMessageEntity(context);
         try {
             MessageEntity savedMessage = messageRepository.save(messageEntity);
 
-            ChatMessageDto dto = toDto(savedMessage);
+            PolicyContext dto = toDto(savedMessage);
             bumpVersion(context.getChannelId());
 
             webSocketService.sendMessage(dto);
@@ -56,7 +57,7 @@ public class MessageService {
         }
     }
 
-    public List<ChatMessageDto> getGeneralMessages(LoadMessagesRequest request) {
+    public List<PolicyContext> getGeneralMessages(LoadMessagesRequest request) {
         long version = getVersion(request.getChannelId());
 
         String key = request.getChannelId() + ":" +
@@ -64,7 +65,7 @@ public class MessageService {
                 request.getPageNumber() + ":" +
                 request.getPageSize();
 
-        List<ChatMessageDto> cached = msgCache.getIfPresent(key);
+        List<PolicyContext> cached = msgCache.getIfPresent(key);
 
         if (cached != null) return cached;
 
@@ -79,7 +80,7 @@ public class MessageService {
                         page
                 );
 
-        List<ChatMessageDto> result =
+        List<PolicyContext> result =
                 messages.stream()
                         .map(this::toDto)
                         .toList();
@@ -89,7 +90,7 @@ public class MessageService {
         return result;
     }
 
-    private MessageEntity toMessageEntity(ChatMessageDto context) {
+    private MessageEntity toMessageEntity(SendMessageContent context) {
         MessageEntity entity = new MessageEntity();
 
         entity.setContent(context.getContent());
@@ -100,8 +101,8 @@ public class MessageService {
         return entity;
     }
 
-    private ChatMessageDto toDto(MessageEntity entity) {
-        ChatMessageDto dto = new ChatMessageDto();
+    private PolicyContext toDto(MessageEntity entity) {
+        SendMessageContent dto = new SendMessageContent();
 
         dto.setContent(entity.getContent());
         dto.setGuildId(entity.getGuildId());

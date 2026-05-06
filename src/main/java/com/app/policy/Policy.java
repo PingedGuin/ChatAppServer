@@ -1,9 +1,9 @@
 package com.app.policy;
 
 
-import com.app.message.data.dto.ChatMessageDto;
+import com.app.policy.data.PolicyContext;
 
 public interface Policy {
-    public boolean check(ChatMessageDto context);
+    public boolean check(PolicyContext context);
 
 }

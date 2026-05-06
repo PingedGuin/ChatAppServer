@@ -1,6 +1,6 @@
 package com.app.channel.repository;
 
-import com.app.channel.Entity.ChannelEntity;
+import com.app.channel.entity.ChannelEntity;
 import com.app.member.entity.MemberOverride;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

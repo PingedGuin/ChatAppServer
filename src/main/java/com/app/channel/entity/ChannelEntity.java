@@ -1,4 +1,4 @@
-package com.app.channel.Entity;
+package com.app.channel.entity;
 
 import com.app.member.entity.MemberOverride;
 import com.app.role.entity.RoleOverride;

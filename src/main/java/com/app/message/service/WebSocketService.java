@@ -1,6 +1,6 @@
 package com.app.message.service;
 
-import com.app.message.data.dto.ChatMessageDto;
+import com.app.policy.data.PolicyContext;
 import com.app.websocket.Session;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class WebSocketService {
         sessions.remove(userId);
     }
 
-    public void sendMessage(ChatMessageDto messageDto) {
+    public void sendMessage(PolicyContext messageDto) {
         Long channelId = messageDto.getChannelId();
         Set<Long> users = channelUsers.get(channelId);
 

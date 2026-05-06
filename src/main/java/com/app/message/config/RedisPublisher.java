@@ -1,6 +1,6 @@
 package com.app.message.config;
 
-import com.app.message.data.dto.ChatMessageDto;
+import com.app.policy.data.PolicyContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +15,7 @@ public class RedisPublisher {
         this.redisTemplate = redisTemplate;
     }
 
-    public void publish(ChatMessageDto dto) {
+    public void publish(PolicyContext dto) {
         try {
             String json = objectMapper.writeValueAsString(dto);
             redisTemplate.convertAndSend("chat", json);

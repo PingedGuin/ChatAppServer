@@ -1,6 +1,6 @@
 package com.app.member.entity;
 
-import com.app.channel.Entity.ChannelEntity;
+import com.app.channel.entity.ChannelEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
