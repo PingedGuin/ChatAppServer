@@ -34,7 +34,7 @@ public class ChannelService {
         this.permissionService = permissionService;
     }
 
-    private final Cache<String, ChannelEntity> cacheEntity = Caffeine.newBuilder()
+    private final Cache<Long, ChannelEntity> cacheEntity = Caffeine.newBuilder()
             .maximumSize(50000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .recordStats()
@@ -56,7 +56,7 @@ public class ChannelService {
     public ChannelPermsDto getChannelPermissions(Long guildId, Long channelId, Long memberId) {
         String key = String.format("channel:%s:%s", guildId, channelId);
 
-        ChannelEntity channel = cacheEntity.get(key, id -> channelRepository.findById(id)
+        ChannelEntity channel = cacheEntity.get(channelId, id -> channelRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Channel not found"))
         );
 
@@ -94,9 +94,9 @@ public class ChannelService {
         webSocketService.joinChannel(channelId, userId);
     }
 
-    public void evictChannel(String guildId, Long channelId) {
-        cacheEntity.invalidate("channel:" + guildId + ":" + channelId);
-
+    public void evictChannel(Long channelId) {
+      //  cacheEntity.invalidate("channel:" + guildId + ":" + channelId);
+        cacheEntity.invalidate(channelId);
         cacheOverrideRolesPerms.invalidate(channelId);
 
         memberOverridePermsCache.asMap().keySet()

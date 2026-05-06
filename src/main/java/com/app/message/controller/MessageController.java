@@ -36,7 +36,7 @@ public class MessageController {
         }
         content.setChannelId(1221L);
         content.setGuildId(1221L);
-        // policyContext.setSenderId(3134132L);
+        content.setSenderId(3134132L);
         messageService.handleSendMsgReq(content);
     }
 

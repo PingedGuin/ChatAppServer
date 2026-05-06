@@ -8,15 +8,13 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface ChannelRepository extends JpaRepository<ChannelEntity, Integer> {
-    Optional<ChannelEntity> findById(String id);
-
+public interface ChannelRepository extends JpaRepository<ChannelEntity, Long> {
     @Query("""
-                SELECT mo 
+                SELECT mo\s
                 FROM MemberOverride mo
                 WHERE mo.channel.id = :channelId
                   AND mo.member.id = :memberId
-            """)
+           \s""")
     Optional<MemberOverride> findByChannelIdAndMemberId(
             @Param("channelId") Long channelId,
             @Param("memberId") Long memberId
