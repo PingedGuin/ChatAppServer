@@ -12,5 +12,5 @@ public enum Action {
     MANAGE_VOICE_STATES,
     MANAGE_INVITES,
     BAN,
-    SEND_MESSAGE
+    JOIN_CHANNEL, SEND_MESSAGE
 }

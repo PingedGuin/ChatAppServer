@@ -10,7 +10,6 @@ import com.app.policy.data.PolicyContext;
 public class BanPolicy implements Policy {
     @Override
     public boolean check(PolicyContext context) {
-
         return false;
     }
 }

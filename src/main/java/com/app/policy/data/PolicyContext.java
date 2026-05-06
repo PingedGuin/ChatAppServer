@@ -13,4 +13,8 @@ public class PolicyContext {
     private Long channelId;
     private Long guildId;
     private Action action;
+
+    public PolicyContext(Action action) {
+        this.action = action;
+    }
 }

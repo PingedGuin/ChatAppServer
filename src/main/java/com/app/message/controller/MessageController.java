@@ -3,8 +3,10 @@ package com.app.message.controller;
 import com.app.message.data.dto.LoadMessagesRequest;
 import com.app.message.data.dto.chat.action.JoinChannelDto;
 import com.app.message.service.MessageService;
+import com.app.policy.Action;
 import com.app.policy.PolicyEngine;
 import com.app.policy.data.PolicyContext;
+import com.app.policy.policies.channel.context.JoinChannelContext;
 import com.app.policy.policies.channel.context.SendMessageContent;
 import com.app.register.dtos.socket.SocketMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import java.util.List;
 public class MessageController {
     private final MessageService messageService;
     private final PolicyEngine policyEngine;
+
     public MessageController(MessageService messageService, PolicyEngine policyEngine) {
         this.messageService = messageService;
         this.policyEngine = policyEngine;
@@ -33,21 +36,24 @@ public class MessageController {
         }
         content.setChannelId(1221L);
         content.setGuildId(1221L);
-       // policyContext.setSenderId(3134132L);
+        // policyContext.setSenderId(3134132L);
         messageService.handleSendMsgReq(content);
     }
+
     @MessageMapping("/socket")
     public void socket(@Payload SocketMessage message) {
         log.info("socket message: {}", message);
     }
+
     @GetMapping("/messages/general")
     public List<PolicyContext> getMessages(@Payload LoadMessagesRequest loadMessagesRequest) {
 
         return messageService.getGeneralMessages(loadMessagesRequest);
     }
+
     @MessageMapping("/channel/join")
-    public void joinChannel(JoinChannelDto dto, Principal user) {
-//        policyEngine.check();
-        // هون ممكن تسجل user داخل channel (memory / DB)
+    public void joinChannel(JoinChannelContext context, Principal user) {
+        policyEngine.check(context);
+
     }
 }

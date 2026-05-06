@@ -1,5 +1,6 @@
 package com.app.policy.policies.channel.context;
 
+import com.app.policy.Action;
 import com.app.policy.data.PolicyContext;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,4 +9,9 @@ import lombok.EqualsAndHashCode;
 @Data
 public class JoinChannelContext extends PolicyContext {
     private Long permissions;
+
+    public JoinChannelContext(Long permissions) {
+        super(Action.JOIN_CHANNEL);
+        this.permissions = permissions;
+    }
 }
