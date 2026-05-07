@@ -2,10 +2,11 @@ package com.app.message.service;
 
 import com.app.message.data.dto.LoadMessagesRequest;
 import com.app.message.data.entity.MessageEntity;
+import com.app.message.data.holder.CachedChannel;
 import com.app.message.repository.MessageRepository;
 import com.app.policy.PolicyEngine;
 import com.app.policy.data.PolicyContext;
-import com.app.policy.policies.channel.context.SendMessageContent;
+import com.app.policy.policies.channel.context.Message;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -24,11 +27,8 @@ public class MessageService {
     private final PolicyEngine policyEngine;
     private final WebSocketService webSocketService;
     private final MessageRepository messageRepository;
-    private final Cache<String, Long> channelVersion = Caffeine.newBuilder()
-            .maximumSize(100_00)
-            .expireAfterWrite(10, TimeUnit.MINUTES)
-            .build();
-    private final Cache<String, List<PolicyContext>> msgCache = Caffeine.newBuilder()
+
+    private final Cache<Long, CachedChannel> channels = Caffeine.newBuilder()
             .maximumSize(100_000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
@@ -40,7 +40,7 @@ public class MessageService {
     }
 
     @Transactional
-    public void handleSendMsgReq(SendMessageContent context) {
+    public void handleSendMsgReq(Message context) {
         policyEngine.check(context);
 
         MessageEntity messageEntity = toMessageEntity(context);
@@ -48,7 +48,6 @@ public class MessageService {
             MessageEntity savedMessage = messageRepository.save(messageEntity);
 
             PolicyContext dto = toDto(savedMessage);
-            bumpVersion(context.getChannelId());
 
             webSocketService.sendMessage(dto);
         } catch (Exception e) {
@@ -57,17 +56,11 @@ public class MessageService {
         }
     }
 
-    public List<PolicyContext> getGeneralMessages(LoadMessagesRequest request) {
-        long version = getVersion(request.getChannelId());
+    public ConcurrentLinkedQueue<Message> getChannelMessages(LoadMessagesRequest request) {
+        var channelId = request.getChannelId();
+        var cached = channels.getIfPresent(channelId);
 
-        String key = request.getChannelId() + ":" +
-                version + ":" +
-                request.getPageNumber() + ":" +
-                request.getPageSize();
-
-        List<PolicyContext> cached = msgCache.getIfPresent(key);
-
-        if (cached != null) return cached;
+        if (cached != null) return cached.getMessages();
 
         Pageable page = PageRequest.of(
                 request.getPageNumber(),
@@ -80,17 +73,17 @@ public class MessageService {
                         page
                 );
 
-        List<PolicyContext> result =
+        ConcurrentLinkedQueue<Message> result =
                 messages.stream()
                         .map(this::toDto)
-                        .toList();
+                        .collect(Collectors.toCollection(ConcurrentLinkedQueue::new));
 
-        msgCache.put(key, result);
-
+        CachedChannel channelMessages = new CachedChannel(channelId, result);
+        channels.put(channelId, channelMessages);
         return result;
     }
 
-    private MessageEntity toMessageEntity(SendMessageContent context) {
+    private MessageEntity toMessageEntity(Message context) {
         MessageEntity entity = new MessageEntity();
 
         entity.setContent(context.getContent());
@@ -101,8 +94,8 @@ public class MessageService {
         return entity;
     }
 
-    private PolicyContext toDto(MessageEntity entity) {
-        SendMessageContent dto = new SendMessageContent();
+    private Message toDto(MessageEntity entity) {
+        Message dto = new Message();
 
         dto.setContent(entity.getContent());
         dto.setGuildId(entity.getGuildId());
@@ -112,14 +105,14 @@ public class MessageService {
         return dto;
     }
 
-    private long getVersion(Long channelId) {
-        Long version = channelVersion.getIfPresent(String.valueOf(channelId));
-        return version != null ? version : 0L;
-    }
-
-    private void bumpVersion(Long channelId) {
-        channelVersion.put(String.valueOf(channelId), getVersion(channelId) + 1);
-    }
+//    private long getVersion(Long channelId) {
+//        Long version = channelVersion.getIfPresent(String.valueOf(channelId));
+//        return version != null ? version : 0L;
+//    }
+//
+//    private void bumpVersion(Long channelId) {
+//        channelVersion.put(String.valueOf(channelId), getVersion(channelId) + 1);
+//    }
 
 // 1. check if user banned
 // 2. check membership (user in guild)
