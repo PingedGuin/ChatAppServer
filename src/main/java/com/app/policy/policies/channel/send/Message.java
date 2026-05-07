@@ -1,4 +1,4 @@
-package com.app.policy.policies.channel.context;
+package com.app.policy.policies.channel.send;
 
 import com.app.policy.Action;
 import com.app.policy.data.PolicyContext;

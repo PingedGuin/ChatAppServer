@@ -13,6 +13,8 @@ import jakarta.servlet.http.Cookie;
 import java.io.IOException;
 import java.util.List;
 
+import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
@@ -33,7 +35,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith("Bearer ")) {
             jwt = header.substring(7);
         }
-
         if (request.getCookies() != null) {
             for (Cookie c : request.getCookies()) {
                 if ("jwt".equals(c.getName())) {

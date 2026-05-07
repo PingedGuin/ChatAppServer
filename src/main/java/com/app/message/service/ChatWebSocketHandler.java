@@ -1,7 +1,6 @@
 package com.app.message.service;
 
-import com.app.policy.data.PolicyContext;
-import com.app.policy.policies.channel.context.Message;
+import com.app.policy.policies.channel.send.Message;
 import com.app.websocket.Session;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

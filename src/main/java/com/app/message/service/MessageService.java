@@ -4,7 +4,7 @@ import com.app.message.data.dto.LoadMessagesRequest;
 import com.app.message.data.entity.MessageEntity;
 import com.app.message.data.holder.CachedChannel;
 import com.app.message.repository.MessageRepository;
-import com.app.policy.policies.channel.context.Message;
+import com.app.policy.policies.channel.send.Message;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;

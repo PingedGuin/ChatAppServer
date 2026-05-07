@@ -1,6 +1,6 @@
 package com.app.message.data.holder;
 
-import com.app.policy.policies.channel.context.Message;
+import com.app.policy.policies.channel.send.Message;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;

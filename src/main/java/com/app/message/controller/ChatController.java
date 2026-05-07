@@ -1,28 +1,38 @@
 package com.app.message.controller;
 
-import com.app.channel.service.ChannelService;
-import com.app.message.data.dto.chat.command.JoinRequest;
 import com.app.message.data.dto.chat.command.LeaveRequest;
 import com.app.message.data.dto.chat.command.TypingRequest;
+import com.app.message.service.WebSocketService;
+import com.app.policy.PolicyEngine;
+import com.app.policy.policies.channel.join.context.JoinChannelContext;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class ChatController {
-    private final ChannelService channelService;
+    private final PolicyEngine policy;
+    private final WebSocketService webSocketService;
 
-    public ChatController(ChannelService channelService) {
-        this.channelService = channelService;
+    public ChatController(PolicyEngine policy, WebSocketService webSocketService) {
+        this.policy = policy;
+        this.webSocketService = webSocketService;
     }
 
     @MessageMapping("/channel.join")
-    public void join(@RequestBody JoinRequest req) {
+    public void join(@Payload JoinChannelContext req) {
+        // if (policy.check(req)){
+        // return;
+        // }
+
+        webSocketService.joinChannel(req.getChannelId(), req.getGuildId(), req.getUserId());
     }
+
     @MessageMapping("/channel.leave")
-    public void leave(@RequestBody LeaveRequest req) {
+    public void leave(@Payload LeaveRequest req) {
     }
+
     @MessageMapping("/channel.typing")
-    public void typing(@RequestBody TypingRequest req) {
+    public void typing(@Payload TypingRequest req) {
     }
 }

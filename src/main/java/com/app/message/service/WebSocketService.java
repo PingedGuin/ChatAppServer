@@ -1,7 +1,6 @@
 package com.app.message.service;
 
-import com.app.policy.data.PolicyContext;
-import com.app.policy.policies.channel.context.Message;
+import com.app.policy.policies.channel.send.Message;
 import com.app.websocket.Session;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -51,10 +50,10 @@ public class WebSocketService {
         }
     }
 
-    public void joinChannel(Long channelId, Long memberId) {
+    public void joinChannel(Long channelId, Long guildId, Long userId) {
         channelUsers
                 .computeIfAbsent(channelId, k -> ConcurrentHashMap.newKeySet())
-                .add(memberId);
+                .add(userId);
     }
 
     public void leaveChannel(Long channelId, Long userId) {

@@ -1,10 +1,7 @@
 package com.app.message.config;
 
-import com.app.message.service.WebSocketService;
-import com.app.policy.data.PolicyContext;
-import com.app.policy.policies.channel.context.Message;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Deprecated
 @Service
 public class RedisSubscriber {
