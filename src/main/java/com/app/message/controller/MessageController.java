@@ -45,7 +45,7 @@ public class MessageController {
     }
 
     @GetMapping("/messages/general")
-    public ConcurrentLinkedQueue<Message> getMessages(@Payload LoadMessagesRequest messagesReq) {
+    public List<Message> getMessages(@Payload LoadMessagesRequest messagesReq) {
 
         return messageService.getChannelMessages(messagesReq);
     }

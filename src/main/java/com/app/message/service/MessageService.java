@@ -19,7 +19,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -56,7 +55,7 @@ public class MessageService {
         }
     }
 
-    public ConcurrentLinkedQueue<Message> getChannelMessages(LoadMessagesRequest request) {
+    public List<Message> getChannelMessages(LoadMessagesRequest request) {
         var channelId = request.getChannelId();
         var cached = channels.getIfPresent(channelId);
 
@@ -73,12 +72,16 @@ public class MessageService {
                         page
                 );
 
-        ConcurrentLinkedQueue<Message> result =
+        List<Message> result =
                 messages.stream()
                         .map(this::toDto)
-                        .collect(Collectors.toCollection(ConcurrentLinkedQueue::new));
+                        .toList();
 
-        CachedChannel channelMessages = new CachedChannel(channelId, result);
+        CachedChannel channelMessages =
+                new CachedChannel(
+                        channelId,
+                        new ConcurrentLinkedQueue<>(result)
+                );
         channels.put(channelId, channelMessages);
         return result;
     }
