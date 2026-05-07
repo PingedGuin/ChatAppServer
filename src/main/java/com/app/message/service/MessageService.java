@@ -4,8 +4,6 @@ import com.app.message.data.dto.LoadMessagesRequest;
 import com.app.message.data.entity.MessageEntity;
 import com.app.message.data.holder.CachedChannel;
 import com.app.message.repository.MessageRepository;
-import com.app.policy.PolicyEngine;
-import com.app.policy.data.PolicyContext;
 import com.app.policy.policies.channel.context.Message;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -14,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -23,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Slf4j
 public class MessageService {
-    private final PolicyEngine policyEngine;
     private final WebSocketService webSocketService;
     private final MessageRepository messageRepository;
 
@@ -32,21 +28,26 @@ public class MessageService {
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
 
-    public MessageService(PolicyEngine policyEngine, WebSocketService webSocketService, MessageRepository messageRepository) {
-        this.policyEngine = policyEngine;
+    public MessageService(WebSocketService webSocketService, MessageRepository messageRepository) {
         this.webSocketService = webSocketService;
         this.messageRepository = messageRepository;
     }
 
     @Transactional
     public void handleSendMsgReq(Message context) {
-        policyEngine.check(context);
 
         MessageEntity messageEntity = toMessageEntity(context);
         try {
             MessageEntity savedMessage = messageRepository.save(messageEntity);
 
-            PolicyContext dto = toDto(savedMessage);
+            Message dto = toDto(savedMessage);
+
+            CachedChannel cached =
+                    channels.getIfPresent(dto.getChannelId());
+
+            if (cached != null) {
+                cached.insertMessage(dto);
+            }
 
             webSocketService.sendMessage(dto);
         } catch (Exception e) {
@@ -107,22 +108,4 @@ public class MessageService {
         dto.setCreatedAt(entity.getCreatedAt());
         return dto;
     }
-
-//    private long getVersion(Long channelId) {
-//        Long version = channelVersion.getIfPresent(String.valueOf(channelId));
-//        return version != null ? version : 0L;
-//    }
-//
-//    private void bumpVersion(Long channelId) {
-//        channelVersion.put(String.valueOf(channelId), getVersion(channelId) + 1);
-//    }
-
-// 1. check if user banned
-// 2. check membership (user in guild)
-// 3. check channel access
-// 4. check permissions (SEND_MESSAGE)
-// 5. create message object
-// 6. save message
-// 7. publish event (WebSocket)
-
 }

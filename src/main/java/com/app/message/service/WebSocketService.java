@@ -1,6 +1,7 @@
 package com.app.message.service;
 
 import com.app.policy.data.PolicyContext;
+import com.app.policy.policies.channel.context.Message;
 import com.app.websocket.Session;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -16,19 +17,19 @@ import org.springframework.web.socket.TextMessage;
 @Service
 @Getter
 public class WebSocketService {
-    private final Map<String, Session> sessions = new ConcurrentHashMap<>();
+    private final Map<Long, Session> sessions = new ConcurrentHashMap<>();
     private final Map<Long, Set<Long>> channelUsers = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void addSession(String userId, Session session) {
+    public void addSession(Long userId, Session session) {
         sessions.put(userId, session);
     }
 
-    public void removeSession(String userId) {
+    public void removeSession(Long userId) {
         sessions.remove(userId);
     }
 
-    public void sendMessage(PolicyContext messageDto) {
+    public void sendMessage(Message messageDto) {
         Long channelId = messageDto.getChannelId();
         Set<Long> users = channelUsers.get(channelId);
 
