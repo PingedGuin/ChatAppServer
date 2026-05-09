@@ -24,8 +24,10 @@ public class ChatController {
         // if (policy.check(req)){
         // return;
         // }
+        req.setChannelId(1221L);
+        req.setGuildId(1221L);
+        req.setUserId(3134132L);
 
-        webSocketService.joinChannel(req.getChannelId(), req.getGuildId(), req.getUserId());
     }
 
     @MessageMapping("/channel.leave")

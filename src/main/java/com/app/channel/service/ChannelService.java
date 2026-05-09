@@ -90,8 +90,6 @@ public class ChannelService {
 //
 //        }
 
-
-        webSocketService.joinChannel(channelId,guildId ,userId);
     }
 
     public void evictChannel(Long channelId) {

@@ -28,7 +28,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
-
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     runtimeOnly("org.postgresql:postgresql")
     implementation("com.h2database:h2")
     implementation("com.github.ben-manes.caffeine:caffeine")
@@ -51,7 +51,6 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
 
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
 }
 
 

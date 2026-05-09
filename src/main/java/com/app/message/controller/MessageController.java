@@ -31,7 +31,10 @@ public class MessageController {
         if (content == null) {
             throw new RuntimeException("Invalid message");
         }
-        content.setChannelId(1221L);
+
+        System.out.println("RECEIVED MESSAGE: " + content.getContent());
+
+        content.setChannelId(1L);
         content.setGuildId(1221L);
         content.setSenderId(3134132L);
         messageService.handleSendMsgReq(content);
