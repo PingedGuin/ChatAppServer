@@ -27,6 +27,7 @@ public class TokenService {
             JWTClaimsSet claims = new JWTClaimsSet.Builder()
                     .subject(userId)
                     .claim("sessionId", sessionId)
+                  //  .claim("role", role)  //todo add this later
                     .expirationTime(date)
                     .issueTime(new Date())
                     .build();

@@ -13,7 +13,6 @@ import jakarta.servlet.http.Cookie;
 import java.io.IOException;
 import java.util.List;
 
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -29,33 +28,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        String jwt = null;
+        String token = null;
 
         String header = request.getHeader("Authorization");
         if (header != null && header.startsWith("Bearer ")) {
-            jwt = header.substring(7);
+            token = header.substring(7);
         }
         if (request.getCookies() != null) {
             for (Cookie c : request.getCookies()) {
-                if ("jwt".equals(c.getName())) {
-                    jwt = c.getValue();
+                if ("token".equals(c.getName())) {
+                    token = c.getValue();
                     break;
                 }
             }
         }
 
-        if (jwt == null) {
+        if (token == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        if (!tokenService.validateToken(jwt)) {
+        if (!tokenService.validateToken(token)) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
             return;
         }
+        String userId = tokenService.extractUserId(token);
 
         UsernamePasswordAuthenticationToken auth =
-                new UsernamePasswordAuthenticationToken("com/app/user", null, List.of());
+                new UsernamePasswordAuthenticationToken(
+                        userId,
+                        null,
+                        List.of()
+                );
 
         SecurityContextHolder.getContext().setAuthentication(auth);
 
