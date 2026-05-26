@@ -17,7 +17,7 @@ import java.util.Date;
 @Slf4j
 @Service
 public class TokenService {
-    public String generateAccessToken(String userId, String sessionId, String expireAt) {
+    public String generateAccessToken(String userId, String sessionId, String role, String expireAt) {
         //todo add role for the user in include it in the token
         try {
             String SECRET = "super-long-random-secret-key-256-bits"; // todo change this
@@ -60,6 +60,7 @@ public class TokenService {
     public String extractUserId(String token) {
         try {
             SignedJWT jwt = SignedJWT.parse(token);
+//            String role = tokenService.extractRole(token);
             return jwt.getJWTClaimsSet().getSubject();
         } catch (Exception e) {
             log.error("Failed to extract userId", e);

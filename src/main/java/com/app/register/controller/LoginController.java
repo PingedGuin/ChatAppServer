@@ -42,7 +42,6 @@ public class LoginController {
         if (auth == null) {
             return ResponseEntity.status(401).body("Not logged in");
         }
-
-        return ResponseEntity.ok(auth.getName());
+        return ResponseEntity.ok(auth.getPrincipal());
     }
 }

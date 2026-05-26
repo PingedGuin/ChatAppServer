@@ -34,7 +34,7 @@ public class GuildService {
 
         if (dto != null) return dto;
 
-        GuildEntity guildEntity = guildRepository.findById(guildId).orElse(null);
+        GuildEntity guildEntity = guildRepository.findByGuildId(guildId).orElse(null);
 
         if (guildEntity == null) throw new RuntimeException("Guild not found");
         GuildInfoDto mapped = mapper.toDto(guildEntity);
@@ -42,6 +42,7 @@ public class GuildService {
         guildCache.put(guildId, mapped);
         return mapped;
     }
+
     public MemberPermissionDto getMemberPerms(Long guildId, Long userId) {
         return null;
     }
@@ -65,12 +66,17 @@ public class GuildService {
     public Boolean kickMember(Long guildId, Long userId) {
         return false;
     }
+
     public Boolean banMember(Long guildId, Long userId) {
         return false;
     }
+
     public Boolean unbanMember(Long guildId, Long userId) {
         return false;
     }
 
 
+    public List<GuildInfoDto> getUserGuilds(Long userId) {
+        return guildRepository.getUserGuilds(userId);
+    }
 }

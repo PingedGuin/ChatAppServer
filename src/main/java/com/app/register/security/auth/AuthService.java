@@ -46,6 +46,7 @@ public class AuthService {
         String token = tokenService.generateAccessToken(
                 user.getId().toString(),
                 session.getSessionId(),
+                null,
                 expireDate.toString()
         );
 
