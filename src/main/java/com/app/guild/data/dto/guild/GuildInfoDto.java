@@ -1,6 +1,5 @@
 package com.app.guild.data.dto.guild;
 
-import com.app.guild.data.Entity.GuildEntity;
 import com.app.role.dto.RoleDto;
 import lombok.Data;
 

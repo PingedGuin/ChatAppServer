@@ -1,6 +1,6 @@
 package com.app.guild.service;
 
-import com.app.guild.data.Entity.GuildEntity;
+import com.app.guild.data.entity.GuildEntity;
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.mapping.GuildMapper;
 import com.app.guild.repository.GuildRepository;

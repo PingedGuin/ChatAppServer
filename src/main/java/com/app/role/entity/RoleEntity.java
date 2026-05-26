@@ -1,6 +1,6 @@
 package com.app.role.entity;
 
-import com.app.guild.data.Entity.GuildEntity;
+import com.app.guild.data.entity.GuildEntity;
 import com.app.member.entity.MemberEntity;
 
 import jakarta.persistence.*;

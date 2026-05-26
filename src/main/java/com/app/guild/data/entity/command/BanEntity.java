@@ -1,4 +1,4 @@
-package com.app.guild.data.Entity.command;
+package com.app.guild.data.entity.command;
 
 import jakarta.persistence.*;
 import lombok.Getter;

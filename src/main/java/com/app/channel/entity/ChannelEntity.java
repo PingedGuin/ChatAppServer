@@ -1,5 +1,6 @@
 package com.app.channel.entity;
 
+import com.app.guild.data.entity.GuildEntity;
 import com.app.member.entity.MemberOverride;
 import com.app.role.entity.RoleOverride;
 import jakarta.persistence.*;
@@ -24,6 +25,7 @@ public class ChannelEntity {
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MemberOverride> memberOverrides;
 
-    @Column(nullable = false)
-    private String guildId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guild_id", nullable = false)
+    private GuildEntity guild;
 }

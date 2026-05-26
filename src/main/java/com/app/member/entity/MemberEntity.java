@@ -1,12 +1,11 @@
 package com.app.member.entity;
 
-import com.app.guild.data.Entity.GuildEntity;
+import com.app.guild.data.entity.GuildEntity;
 import com.app.role.entity.RoleEntity;
 import com.app.user.data.entity.UserInfoEntity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,10 +18,19 @@ import java.util.List;
                 @UniqueConstraint(
                         columnNames = {"guild_id", "user_id"}
                 )
+        },
+        indexes = {
+                @Index(name = "idx_member_guild", columnList = "guild_id"),
+                @Index(name = "idx_member_user", columnList = "user_id"),
+                @Index(name = "idx_member_guild_user", columnList = "guild_id, user_id"),
+                @Index(name = "idx_member_guild_banned", columnList = "guild_id, banned")
         }
 )
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberEntity {
 
     @Id
@@ -37,10 +45,13 @@ public class MemberEntity {
 
     private String avatar;
 
+    @Builder.Default
     private boolean owner = false;
 
+    @Builder.Default
     private boolean muted = false;
 
+    @Builder.Default
     private boolean banned = false;
 
     private LocalDateTime joinedAt;

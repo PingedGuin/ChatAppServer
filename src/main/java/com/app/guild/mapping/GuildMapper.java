@@ -1,9 +1,8 @@
 package com.app.guild.mapping;
 
-import com.app.guild.data.Entity.GuildEntity;
+import com.app.guild.data.entity.GuildEntity;
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
