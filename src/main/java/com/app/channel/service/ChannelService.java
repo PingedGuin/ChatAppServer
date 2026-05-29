@@ -72,7 +72,7 @@ public class ChannelService {
                         ))
         );
 
-        return new ChannelPermsDto(channel.getGuildId(), channel.getId(), roleOverrides, memberOverride.orElse(null));
+        return new ChannelPermsDto(channel.getGuild().getId(), channel.getId(), roleOverrides, memberOverride.orElse(null));
     }
 
     public void checkUserPerms(ChatRequest request) {

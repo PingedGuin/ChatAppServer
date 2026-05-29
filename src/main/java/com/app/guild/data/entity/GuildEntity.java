@@ -69,11 +69,6 @@ public class GuildEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @PrePersist
-    public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
     @OneToMany(mappedBy = "guild")
     private List<MemberEntity> members;
 
@@ -82,6 +77,12 @@ public class GuildEntity {
 
     @OneToMany(mappedBy = "guild")
     private List<ChannelEntity> channels;
+
+    @PrePersist
+    public void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
 
     @PreUpdate
     public void onUpdate() {

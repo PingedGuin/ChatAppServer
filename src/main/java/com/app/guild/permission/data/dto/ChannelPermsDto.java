@@ -10,11 +10,11 @@ import java.util.Map;
 public class ChannelPermsDto {
     String key;
     String channelId;
-    String guildId;
+    Long guildId;
     private Map<Long, RoleOverride> roleOverrideMap;
     private MemberOverride memberOverride;
 
-    public ChannelPermsDto(String guildId, Long id, Map<Long, RoleOverride> roleOverrideMap, MemberOverride memberOverride) {
+    public ChannelPermsDto(Long guildId, Long id, Map<Long, RoleOverride> roleOverrideMap, MemberOverride memberOverride) {
         this.key = String.format("channel:%s:%s", guildId, id);
         this.roleOverrideMap = roleOverrideMap;
         this.memberOverride = memberOverride;

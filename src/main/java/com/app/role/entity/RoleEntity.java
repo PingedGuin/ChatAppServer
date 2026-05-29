@@ -38,6 +38,7 @@ public class RoleEntity {
 
     private String color;
 
+
     private boolean mentionable = true;
 
     private boolean hoisted = false;

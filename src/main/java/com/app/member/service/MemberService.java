@@ -34,8 +34,8 @@ public class MemberService {
                 .map(role -> new RoleDto(
                         role.getId(),
                         role.getName(),
-                        role.getGuild().getGuildId(),
-                        role.getPermission()
+                        role.getGuild().getId(),
+                        role.getPermissions()
                 ))
                 .toList();
 

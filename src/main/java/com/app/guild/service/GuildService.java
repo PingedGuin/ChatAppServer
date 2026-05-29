@@ -34,7 +34,7 @@ public class GuildService {
 
         if (dto != null) return dto;
 
-        GuildEntity guildEntity = guildRepository.findByGuildId(guildId).orElse(null);
+        GuildEntity guildEntity = guildRepository.findById(guildId).orElse(null);
 
         if (guildEntity == null) throw new RuntimeException("Guild not found");
         GuildInfoDto mapped = mapper.toDto(guildEntity);
