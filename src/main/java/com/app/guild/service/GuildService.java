@@ -37,12 +37,10 @@ public class GuildService {
     }
 
     private GuildEntity getGuildEntity(Long guildId) {
-        var entity = guildEntityCache.getIfPresent(guildId);
-        if (entity != null) return entity;
-        var guildEntityOptional = guildRepository.findById(guildId).orElseThrow(() -> new RuntimeException("Guild not found"));
-        guildEntityCache.put(guildId, guildEntityOptional);
-        return guildEntityOptional;
-
+        return guildEntityCache.get(guildId, id ->
+                guildRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Guild not found"))
+        );
     }
 
     public GuildInfoDto getGuildInfo(Long guildId) {
