@@ -1,5 +1,7 @@
 package com.app.guild.service;
 
+import com.app.guild.data.dto.guild.GuildConfigDto;
+import com.app.guild.data.dto.guild.GuildDetailsDto;
 import com.app.guild.data.entity.GuildEntity;
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.mapping.GuildMapper;
@@ -16,12 +18,17 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class GuildService {
     private final GuildRepository guildRepository;
-    private final GuildMapper mapper;
-
-    private final Cache<Long, GuildInfoDto> guildCache = Caffeine.newBuilder()
-            .maximumSize(200_000)
+    private final Cache<Long, GuildEntity> guildEntityCache = Caffeine.newBuilder()
+            .maximumSize(100_000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
+
+    private final GuildMapper mapper;
+
+//    private final Cache<Long, GuildInfoDto> guildCache = Caffeine.newBuilder()
+//            .maximumSize(200_000)
+//            .expireAfterWrite(10, TimeUnit.MINUTES)
+//            .build();
 
 
     public GuildService(GuildRepository guildRepository, GuildMapper mapper) {
@@ -29,18 +36,25 @@ public class GuildService {
         this.mapper = mapper;
     }
 
-    public GuildInfoDto getGuild(Long guildId) {
-        var dto = guildCache.getIfPresent(guildId);
+    private GuildEntity getGuildEntity(Long guildId) {
+        var entity = guildEntityCache.getIfPresent(guildId);
+        if (entity != null) return entity;
+        var guildEntityOptional = guildRepository.findById(guildId).orElseThrow(() -> new RuntimeException("Guild not found"));
+        guildEntityCache.put(guildId, guildEntityOptional);
+        return guildEntityOptional;
 
-        if (dto != null) return dto;
+    }
 
-        GuildEntity guildEntity = guildRepository.findById(guildId).orElse(null);
+    public GuildInfoDto getGuildInfo(Long guildId) {
+        return mapper.toDto(getGuildEntity(guildId));
+    }
 
-        if (guildEntity == null) throw new RuntimeException("Guild not found");
-        GuildInfoDto mapped = mapper.toDto(guildEntity);
+    public GuildDetailsDto getGuildDetails(Long guildId) {
+        return mapper.toDetailsDto(getGuildEntity(guildId));
+    }
 
-        guildCache.put(guildId, mapped);
-        return mapped;
+    public GuildConfigDto getGuildConfig(Long guildId) {
+        return mapper.toConfigDto(getGuildEntity(guildId));
     }
 
     public MemberPermissionDto getMemberPerms(Long guildId, Long userId) {
@@ -48,7 +62,7 @@ public class GuildService {
     }
 
     public List<RoleDto> getAllRoles(Long guildId) {
-        return getGuild(guildId).getRoles();
+        return getGuildDetails(guildId).getRoles();
     }
 
     public Boolean isGuildOwner(Long guildId, Long userId) {
