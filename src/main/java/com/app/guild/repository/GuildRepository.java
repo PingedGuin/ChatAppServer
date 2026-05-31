@@ -16,6 +16,4 @@ public interface GuildRepository extends JpaRepository<GuildEntity, Long> {
     Optional<GuildEntity> findById(Long id);
 
     Optional<GuildEntity> findByGuildName(String guildName);
-
-    List<GuildInfoDto> getUserGuilds(@Param("userId") Long userId);
 }

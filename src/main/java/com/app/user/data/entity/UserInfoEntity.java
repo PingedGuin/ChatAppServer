@@ -2,32 +2,62 @@ package com.app.user.data.entity;
 
 import com.app.register.dtos.register.RegisterRequest;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.*;
 
-@Data
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Entity
+@Table(name = "users")
+@Getter
+@Setter
 @NoArgsConstructor
-@Table(name = "user_info")
+@AllArgsConstructor
+@Builder
 public class UserInfoEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "public_id", nullable = false, unique = true, updatable = false)
+    private UUID publicId;
+
+    @Column(nullable = false, length = 32, unique = true)
     private String username;
 
-    @Column(name = "email", unique = true,nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
 
-    public UserInfoEntity(RegisterRequest request) {
-        this.username = request.getUsername();
-        this.email = request.getEmail();
-        this.password = request.getPassword();
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+
+        if (publicId == null) {
+            publicId = UUID.randomUUID();
+        }
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
+    public static UserInfoEntity from(RegisterRequest request, String encodedPassword) {
+        return UserInfoEntity.builder()
+                .username(request.getUsername())
+                .email(request.getEmail())
+                .passwordHash(encodedPassword)
+                .build();
     }
 }

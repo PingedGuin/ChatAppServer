@@ -16,12 +16,21 @@ public class RegisterService {
     }
 
     public boolean handleRegister(RegisterRequest request) {
-        if (userInfoRepository.existsByEmailAndUsername(request.getEmail(), request.getUsername())) return false;
 
-        if (request.IsEmpty()) return false;
-        var passEncode = passwordEncoderService.encode(request.getPassword());
-        request.setPassword(passEncode);
-        userInfoRepository.save(new UserInfoEntity(request));
+        if (request == null || request.IsEmpty()) return false;
+
+        if (userInfoRepository.existsByEmail(request.getEmail())) return false;
+        if (userInfoRepository.existsByUsername(request.getUsername())) return false;
+
+        String encodedPassword = passwordEncoderService.encode(request.getPassword());
+
+        UserInfoEntity user = UserInfoEntity.builder()
+                .username(request.getUsername())
+                .email(request.getEmail())
+                .passwordHash(encodedPassword)
+                .build();
+
+        userInfoRepository.save(user);
 
         return true;
     }

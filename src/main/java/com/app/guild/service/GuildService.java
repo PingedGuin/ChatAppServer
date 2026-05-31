@@ -87,8 +87,4 @@ public class GuildService {
         return false;
     }
 
-
-    public List<GuildInfoDto> getUserGuilds(Long userId) {
-        return guildRepository.getUserGuilds(userId);
-    }
 }

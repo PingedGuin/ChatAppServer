@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
-    Optional<RoleEntity> findByGuildIdAndRoleId(Long guild_id, Long roleId);
+  //  Optional<RoleEntity> findByGuildIdAndRoleId(Long guild_id, Long roleId);
 
    // Optional<RoleEntity> getRoleEntitesByUserId(String userId);
 }

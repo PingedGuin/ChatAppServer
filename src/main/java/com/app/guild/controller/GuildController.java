@@ -2,7 +2,8 @@ package com.app.guild.controller;
 
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.service.GuildService;
-import org.osgi.annotation.bundle.Header;
+import com.app.member.service.MemberService;
+import com.app.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -11,20 +12,22 @@ import java.util.List;
 
 @RestController
 public class GuildController {
+    private final UserService userService;
     private final GuildService guildService;
 
-    public GuildController(GuildService guildService) {
+    public GuildController(UserService userService, GuildService guildService) {
+        this.userService = userService;
         this.guildService = guildService;
     }
 
     @GetMapping("/api/guild/me/guilds")
     public ResponseEntity<?> getUserGuilds(Authentication auth) {
         Long userId = Long.valueOf(auth.getName());
-        List<GuildInfoDto> guildInfoDtoList = guildService.getUserGuilds(userId);
+        List<GuildInfoDto> guildInfoDtoList = userService.getUserGuilds(userId);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(guildInfoDtoList);
     }
-
+    @PostMapping("/api/guild/create")
     public ResponseEntity<?> createGuild(Authentication auth) {
         return ResponseEntity.ok().build();
     }

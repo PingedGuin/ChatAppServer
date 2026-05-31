@@ -4,8 +4,11 @@ import com.app.channel.data.ChannelDto;
 import com.app.member.dto.MemberDto;
 import com.app.role.dto.RoleDto;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 @Data
+@NoArgsConstructor
 public class GuildDetailsDto {
     private Long id;
     private String guildName;
@@ -19,4 +22,5 @@ public class GuildDetailsDto {
     private List<RoleDto> roles;
     private List<ChannelDto> channels;
     private List<MemberDto> members;
+
 }

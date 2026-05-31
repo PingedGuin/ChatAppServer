@@ -25,7 +25,6 @@ public class LoginController {
     public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletResponse response) {
 
         var responseDto = authService.login(request);
-        System.out.println(responseDto.getAccessToken());
         Cookie cookie = new Cookie("token", responseDto.getAccessToken());
         cookie.setPath("/");
         cookie.setHttpOnly(true);
