@@ -1,5 +1,6 @@
 package com.app.guild.service;
 
+import com.app.event.guild.GuildCreatedEvent;
 import com.app.guild.data.dto.guild.GuildConfigDto;
 import com.app.guild.data.dto.guild.GuildDetailsDto;
 import com.app.guild.data.entity.GuildEntity;
@@ -10,7 +11,9 @@ import com.app.role.dto.RoleDto;
 import com.app.user.data.dto.MemberPermissionDto;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +21,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class GuildService {
     private final GuildRepository guildRepository;
+    private final ApplicationEventPublisher eventPublisher;
+
     private final Cache<Long, GuildEntity> guildEntityCache = Caffeine.newBuilder()
             .maximumSize(100_000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
@@ -31,8 +36,9 @@ public class GuildService {
 //            .build();
 
 
-    public GuildService(GuildRepository guildRepository, GuildMapper mapper) {
+    public GuildService(GuildRepository guildRepository, ApplicationEventPublisher eventPublisher, GuildMapper mapper) {
         this.guildRepository = guildRepository;
+        this.eventPublisher = eventPublisher;
         this.mapper = mapper;
     }
 
@@ -87,7 +93,18 @@ public class GuildService {
         return false;
     }
 
-    public void createGuild(Long ownerId, String guildName) {
+    @Transactional
+    public GuildInfoDto createGuild(Long ownerId, String guildName) {
 
+        GuildEntity guild = new GuildEntity();
+        guild.setGuildName(guildName);
+        guild.setOwnerId(ownerId);
+
+        GuildEntity saved = guildRepository.save(guild);
+
+        eventPublisher.publishEvent(
+                new GuildCreatedEvent(saved.getId(), ownerId)
+        );
+        return mapper.toDto(saved);
     }
 }

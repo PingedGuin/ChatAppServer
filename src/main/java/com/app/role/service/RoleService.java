@@ -15,6 +15,10 @@ public class RoleService {
         this.guildService = guildService;
     }
 
+    public void createDefaultRole(Long guildId) {
+
+    }
+
 //    Create Role
 //    Update Role
 //    Delete Role

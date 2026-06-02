@@ -101,4 +101,7 @@ public class ChannelService {
                 .removeIf(k -> k.startsWith("member:" + channelId + ":"));
     }
 
+    public void createGeneralChannel(Long guildId) {
+
+    }
 }

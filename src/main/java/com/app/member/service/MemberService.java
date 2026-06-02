@@ -53,4 +53,7 @@ public class MemberService {
         return dto;
     }
 
+    public void addOwner(Long ownerId, Long guildId) {
+
+    }
 }
