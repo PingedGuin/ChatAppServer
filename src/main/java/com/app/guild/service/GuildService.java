@@ -87,4 +87,7 @@ public class GuildService {
         return false;
     }
 
+    public void createGuild(Long ownerId, String guildName) {
+
+    }
 }
