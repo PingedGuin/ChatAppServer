@@ -2,6 +2,7 @@ package com.app.guild.service;
 
 import com.app.event.guild.GuildCreatedEvent;
 import com.app.guild.data.dto.guild.GuildConfigDto;
+import com.app.guild.data.dto.guild.GuildCreate;
 import com.app.guild.data.dto.guild.GuildDetailsDto;
 import com.app.guild.data.entity.GuildEntity;
 import com.app.guild.data.dto.guild.GuildInfoDto;
@@ -14,6 +15,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -94,16 +97,16 @@ public class GuildService {
     }
 
     @Transactional
-    public GuildInfoDto createGuild(Long ownerId, String guildName) {
+    public GuildInfoDto createGuild(GuildCreate guildCreate) {
 
         GuildEntity guild = new GuildEntity();
-        guild.setGuildName(guildName);
-        guild.setOwnerId(ownerId);
+        guild.setGuildName(guildCreate.getGuildName());
+        guild.setOwnerId(guildCreate.getOwnerId());
 
         GuildEntity saved = guildRepository.save(guild);
 
         eventPublisher.publishEvent(
-                new GuildCreatedEvent(saved.getId(), ownerId)
+                new GuildCreatedEvent(saved.getId(), guildCreate.getOwnerId())
         );
         return mapper.toDto(saved);
     }
