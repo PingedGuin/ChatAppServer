@@ -4,7 +4,7 @@ import com.app.member.dto.MemberDto;
 import com.app.member.entity.MemberEntity;
 import com.app.member.repository.MemberRepository;
 import com.app.role.dto.RoleDto;
-import com.app.user.data.dto.MemberPermissionDto;
+import com.app.member.dto.MemberPermissionDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,9 +1,9 @@
-package com.app.register.security.user;
+package com.app.user.data.dto;
 
+import com.app.user.data.entity.UserInfoEntity;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,6 +19,10 @@ public class UserPrincipal {
     private String banner;
     private String status;
     private Boolean verified;
+
+    public UserPrincipal(UserInfoEntity userInfoEntity) {
+        this.id = userInfoEntity.getId();
+    }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(

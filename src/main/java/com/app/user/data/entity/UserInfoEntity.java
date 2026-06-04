@@ -38,6 +38,30 @@ public class UserInfoEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "deleted")
+    private boolean deleted;
+
+    @Column(name = "is_admin")
+    private boolean isAdmin;
+
+    @Column(name = "is_banned")
+    private boolean isBanned;
+
+    @Column(name = "banner")
+    private String banner;
+    @Column(name = "avatar")
+    private String avatar;
+    @Column(name = "bio")
+    private String bio;
+    @Column(name = "display_name")
+    private String displayName;
+
+    @Column(name = "is_verified")
+    private boolean isVerified;
+
+    @Column(name = "status")
+    private String status;
+
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();

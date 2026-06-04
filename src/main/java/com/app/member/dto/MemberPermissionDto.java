@@ -1,4 +1,4 @@
-package com.app.user.data.dto;
+package com.app.member.dto;
 
 import com.app.role.dto.RoleDto;
 import lombok.Data;

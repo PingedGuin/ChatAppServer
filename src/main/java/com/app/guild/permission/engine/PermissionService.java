@@ -4,7 +4,7 @@ import com.app.guild.permission.data.Permission;
 import com.app.guild.permission.data.dto.ChannelPermsDto;
 import com.app.role.dto.RoleDto;
 import com.app.role.entity.RoleOverride;
-import com.app.user.data.dto.MemberPermissionDto;
+import com.app.member.dto.MemberPermissionDto;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.stereotype.Service;

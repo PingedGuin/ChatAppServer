@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.app.register.security.auth.TokenService;
 import jakarta.servlet.http.Cookie;
-import com.app.register.security.user.UserPrincipal;
+import com.app.user.data.dto.UserPrincipal;
+import tools.jackson.databind.cfg.MapperBuilder;
 
 import java.io.IOException;
 
@@ -23,11 +24,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
     private static final String TOKEN_COOKIE_NAME = "token";
+    private final MapperBuilder mapperBuilder;
 
 
-    public JwtAuthenticationFilter(TokenService tokenService, UserService userService) {
+    public JwtAuthenticationFilter(TokenService tokenService, UserService userService, MapperBuilder mapperBuilder) {
         this.tokenService = tokenService;
         this.userService = userService;
+        this.mapperBuilder = mapperBuilder;
     }
 
     @Override
