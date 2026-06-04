@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -58,6 +59,9 @@ public class UserInfoEntity {
 
     @Column(name = "is_verified")
     private boolean isVerified;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> roles;
 
     @Column(name = "status")
     private String status;

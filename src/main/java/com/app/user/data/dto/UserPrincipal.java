@@ -19,15 +19,22 @@ public class UserPrincipal {
     private String banner;
     private String status;
     private Boolean verified;
+    private List<String> roles;
 
     public UserPrincipal(UserInfoEntity userInfoEntity) {
         this.id = userInfoEntity.getId();
+        this.username = userInfoEntity.getUsername();
+        this.displayName = userInfoEntity.getDisplayName();
+        this.email = userInfoEntity.getEmail();
+        this.avatar = userInfoEntity.getAvatar();
+        this.banner = userInfoEntity.getBanner();
+        this.status = userInfoEntity.getStatus();
+        this.verified = userInfoEntity.isVerified();
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(
-                new SimpleGrantedAuthority("ROLE_USER")
-
-        );
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .toList();
     }
 }
