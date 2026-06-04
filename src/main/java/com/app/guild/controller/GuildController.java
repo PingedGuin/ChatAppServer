@@ -6,7 +6,9 @@ import com.app.guild.service.GuildService;
 import com.app.register.security.user.UserPrincipal;
 import com.app.user.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +31,7 @@ public class GuildController {
         return ResponseEntity.ok(guildInfoDtoList);
     }
     @PostMapping("/api/guild/create")
-    public ResponseEntity<?> createGuild(Authentication auth, UserPrincipal user, String guildName) { // todo change it make a class for create guild
+    public ResponseEntity<?> createGuild(Authentication auth, @AuthenticationPrincipal UserPrincipal user, @RequestBody  String guildName) { // todo change it make a class for create guild
 
         Long ownerId = user.getId();
         guildService.createGuild(new GuildCreate(ownerId, guildName));
