@@ -29,7 +29,7 @@ public class LoginController {
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(60 * 60);
-        cookie.setSecure(false);
+        cookie.setSecure(false); //todo why return id 1 ? fix it and go to create guild
 
         response.addCookie(cookie);
         return ResponseEntity.ok(responseDto);

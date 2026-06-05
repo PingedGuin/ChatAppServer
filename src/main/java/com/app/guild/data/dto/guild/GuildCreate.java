@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class GuildCreate {
     private Long ownerId;
-    private String guildName;
+    private String name;
 }

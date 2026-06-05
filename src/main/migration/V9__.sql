@@ -12,6 +12,7 @@ CREATE TABLE bans
     created_at TIMESTAMP WITHOUT TIME ZONE             NOT NULL,
     CONSTRAINT pk_bans PRIMARY KEY (id)
 );
+
 ALTER TABLE users
     ADD COLUMN role VARCHAR(50);
 CREATE TABLE channels

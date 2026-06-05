@@ -47,7 +47,7 @@ public class UserService {
         return guilds.stream()
                 .map(g -> new GuildInfoDto(
                         g.getId(),
-                        g.getGuildName(),
+                        g.getName(),
                         g.getDescription(),
                         g.getGuildIcon(),
                         g.getGuildBanner(),

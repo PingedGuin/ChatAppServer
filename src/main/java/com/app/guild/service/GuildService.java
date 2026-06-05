@@ -15,6 +15,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -98,14 +100,22 @@ public class GuildService {
     public GuildInfoDto createGuild(GuildCreate guildCreate) {
 
         GuildEntity guild = new GuildEntity();
-        guild.setGuildName(guildCreate.getGuildName());
+        guild.setName(guildCreate.getName());
         guild.setOwnerId(guildCreate.getOwnerId());
 
         GuildEntity saved = guildRepository.save(guild);
 
-        eventPublisher.publishEvent(
-                new GuildCreatedEvent(saved.getId(), guildCreate.getOwnerId())
+        TransactionSynchronizationManager.registerSynchronization(
+                new TransactionSynchronization() {
+                    @Override
+                    public void afterCommit() {
+                        eventPublisher.publishEvent(
+                                new GuildCreatedEvent(saved.getId(), guildCreate.getOwnerId())
+                        );
+                    }
+                }
         );
+
         return mapper.toDto(saved);
     }
 }

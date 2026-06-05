@@ -1,6 +1,7 @@
 package com.app.guild.controller;
 
 import com.app.guild.data.dto.guild.GuildCreate;
+import com.app.guild.data.dto.guild.GuildCreateRequest;
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.service.GuildService;
 import com.app.user.data.dto.UserPrincipal;
@@ -22,7 +23,7 @@ public class GuildController {
         this.guildService = guildService;
     }
 
-    @GetMapping("/api/guild/me/guilds")
+    @GetMapping("/api/guild/guilds")
     public ResponseEntity<?> getUserGuilds(Authentication auth) {
         UserPrincipal principal =
                 (UserPrincipal) auth.getPrincipal();
@@ -35,13 +36,19 @@ public class GuildController {
         return ResponseEntity.ok(guildInfoDtoList);
     }
     @PostMapping("/api/guild/create")
-    public ResponseEntity<?> createGuild(@AuthenticationPrincipal UserPrincipal user, @RequestBody  String guildName) { // todo change it make a class for create guild
+    public ResponseEntity<GuildInfoDto> createGuild(
+            @AuthenticationPrincipal UserPrincipal user,
+            @RequestBody GuildCreateRequest request) {
 
-        Long ownerId = user.getId();
-        guildService.createGuild(new GuildCreate(ownerId, guildName));
-        return ResponseEntity.ok().build();
+        GuildCreate dto = new GuildCreate(
+                user.getId(),
+                request.getName()
+        );
+
+        GuildInfoDto created = guildService.createGuild(dto);
+
+        return ResponseEntity.ok(created);
     }
-
     @DeleteMapping("/api/guild/delete/{guildId}")
     public ResponseEntity<?> deleteGuild(@PathVariable String guildId) {
         return ResponseEntity.ok().build();

@@ -29,7 +29,7 @@ public class GuildEntity {
     private Long id;
 
     @Column(name = "guild_name", nullable = false, length = 100)
-    private String guildName;
+    private String name;
 
     @Column(length = 500)
     private String description;
