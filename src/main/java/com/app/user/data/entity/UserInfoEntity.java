@@ -1,11 +1,11 @@
 package com.app.user.data.entity;
 
 import com.app.register.dtos.register.RegisterRequest;
+import com.app.user.data.dto.ApplicationRole;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -60,8 +60,8 @@ public class UserInfoEntity {
     @Column(name = "is_verified")
     private boolean isVerified;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<String> roles;
+    @Enumerated(EnumType.STRING)
+    private ApplicationRole role;
 
     @Column(name = "status")
     private String status;
