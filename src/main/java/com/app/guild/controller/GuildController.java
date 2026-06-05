@@ -24,13 +24,18 @@ public class GuildController {
 
     @GetMapping("/api/guild/me/guilds")
     public ResponseEntity<?> getUserGuilds(Authentication auth) {
-        Long userId = Long.valueOf(auth.getName());
+        UserPrincipal principal =
+                (UserPrincipal) auth.getPrincipal();
+
+        if (principal == null) return ResponseEntity.status(401).body("Not logged in");
+
+        Long userId = principal.getId();
         List<GuildInfoDto> guildInfoDtoList = userService.getUserGuilds(userId);
 
         return ResponseEntity.ok(guildInfoDtoList);
     }
     @PostMapping("/api/guild/create")
-    public ResponseEntity<?> createGuild(Authentication auth, @AuthenticationPrincipal UserPrincipal user, @RequestBody  String guildName) { // todo change it make a class for create guild
+    public ResponseEntity<?> createGuild(@AuthenticationPrincipal UserPrincipal user, @RequestBody  String guildName) { // todo change it make a class for create guild
 
         Long ownerId = user.getId();
         guildService.createGuild(new GuildCreate(ownerId, guildName));
@@ -38,11 +43,11 @@ public class GuildController {
     }
 
     @DeleteMapping("/api/guild/delete/{guildId}")
-    public ResponseEntity<?> deleteGuild(Authentication auth, @PathVariable String guildId) {
+    public ResponseEntity<?> deleteGuild(@PathVariable String guildId) {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<?> editGuildSettings(Authentication auth) {
+    public ResponseEntity<?> editGuildSettings(@AuthenticationPrincipal UserPrincipal user) {
         return ResponseEntity.ok().build();
     }
 }
