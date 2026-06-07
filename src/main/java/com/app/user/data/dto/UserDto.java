@@ -21,7 +21,6 @@ public class UserDto {
     private String banner;
     private String status;
     private Boolean verified;
-    private ApplicationRole role;
     private String bio;
 
     public UserDto(UserInfoEntity userInfoEntity) {
@@ -33,11 +32,5 @@ public class UserDto {
         this.banner = userInfoEntity.getBanner();
         this.status = userInfoEntity.getStatus();
         this.verified = userInfoEntity.isVerified();
-        this.role = userInfoEntity.getRole();
-    }
-
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (role == null) return List.of();
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 }

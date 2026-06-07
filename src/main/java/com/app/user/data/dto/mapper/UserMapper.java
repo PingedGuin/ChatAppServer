@@ -9,7 +9,7 @@ public class UserMapper {
     public UserDto toDto(UserInfoEntity entity) {
         return new UserDto(entity.getId(), entity.getUsername(), entity.getDisplayName(),
                 entity.getEmail(), entity.getAvatar(), entity.getBanner(), entity.getStatus(),
-                entity.isVerified(), entity.getRole(), entity.getBio());
+                entity.isVerified(), entity.getBio());
     }
 
     public UserInfoEntity toEntity(UserDto user) {
@@ -18,7 +18,6 @@ public class UserMapper {
         entity.setUsername(user.getUsername());
         entity.setDisplayName(user.getDisplayName());
         entity.setBio(user.getBio());
-        entity.setRole(user.getRole());
         entity.setEmail(user.getEmail());
         entity.setAvatar(user.getAvatar());
         entity.setStatus(user.getStatus());
