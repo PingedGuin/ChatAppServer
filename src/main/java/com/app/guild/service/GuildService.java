@@ -10,6 +10,8 @@ import com.app.guild.mapping.GuildMapper;
 import com.app.guild.repository.GuildRepository;
 import com.app.role.dto.RoleDto;
 import com.app.member.dto.MemberPermissionDto;
+import com.app.user.data.dto.UserDto;
+import com.app.user.service.UserService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.context.ApplicationEventPublisher;
@@ -25,13 +27,13 @@ import java.util.concurrent.TimeUnit;
 public class GuildService {
     private final GuildRepository guildRepository;
     private final ApplicationEventPublisher eventPublisher;
-
     private final Cache<Long, GuildEntity> guildEntityCache = Caffeine.newBuilder()
             .maximumSize(100_000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
 
     private final GuildMapper mapper;
+    private final UserService userService;
 
 //    private final Cache<Long, GuildInfoDto> guildCache = Caffeine.newBuilder()
 //            .maximumSize(200_000)
@@ -39,10 +41,11 @@ public class GuildService {
 //            .build();
 
 
-    public GuildService(GuildRepository guildRepository, ApplicationEventPublisher eventPublisher, GuildMapper mapper) {
+    public GuildService(GuildRepository guildRepository, ApplicationEventPublisher eventPublisher, GuildMapper mapper, UserService userService) {
         this.guildRepository = guildRepository;
         this.eventPublisher = eventPublisher;
         this.mapper = mapper;
+        this.userService = userService;
     }
 
     private GuildEntity getGuildEntity(Long guildId) {
@@ -98,10 +101,11 @@ public class GuildService {
 
     @Transactional
     public GuildInfoDto createGuild(GuildCreate guildCreate) {
-
+        UserDto userDto = userService.getUserById(guildCreate.getOwnerId());
+        var userEntity = userService.getMapper().toEntity(userDto);
         GuildEntity guild = new GuildEntity();
         guild.setName(guildCreate.getName());
-        guild.setOwnerId(guildCreate.getOwnerId());
+        guild.setOwner(userEntity);
 
         GuildEntity saved = guildRepository.save(guild);
 
@@ -118,4 +122,6 @@ public class GuildService {
 
         return mapper.toDto(saved);
     }
+
+
 }

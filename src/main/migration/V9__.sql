@@ -41,6 +41,11 @@ CREATE TABLE guilds
     CONSTRAINT pk_guilds PRIMARY KEY (id)
 );
 
+ALTER TABLE guilds
+    ADD CONSTRAINT fk_guild_owner
+        FOREIGN KEY (owner_id)
+            REFERENCES users(id);
+
 CREATE TABLE member_overrides
 (
     id                  BIGINT NOT NULL,

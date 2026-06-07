@@ -1,5 +1,6 @@
 package com.app.register.security.Interceptor;
 
+import com.app.user.data.dto.UserPrincipal;
 import com.app.user.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,8 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.app.register.security.auth.TokenService;
 import jakarta.servlet.http.Cookie;
-import com.app.user.data.dto.UserPrincipal;
-import tools.jackson.databind.cfg.MapperBuilder;
 
 import java.io.IOException;
 
@@ -24,13 +23,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
     private static final String TOKEN_COOKIE_NAME = "token";
-    private final MapperBuilder mapperBuilder;
 
 
-    public JwtAuthenticationFilter(TokenService tokenService, UserService userService, MapperBuilder mapperBuilder) {
+    public JwtAuthenticationFilter(TokenService tokenService, UserService userService) {
         this.tokenService = tokenService;
         this.userService = userService;
-        this.mapperBuilder = mapperBuilder;
     }
 
     @Override
@@ -65,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         Long userId = tokenService.extractUserId(token);
-        UserPrincipal user = userService.getUserById(userId);
+        UserPrincipal user = userService.getUserPrincipalById(userId);
 
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             UsernamePasswordAuthenticationToken auth =

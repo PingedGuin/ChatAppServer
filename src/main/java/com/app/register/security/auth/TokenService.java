@@ -1,5 +1,6 @@
 package com.app.register.security.auth;
 
+import com.app.user.data.dto.UserPrincipal;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;
@@ -7,7 +8,6 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import com.app.user.data.dto.UserPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

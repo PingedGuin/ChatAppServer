@@ -4,7 +4,7 @@ import com.app.guild.data.dto.guild.GuildCreate;
 import com.app.guild.data.dto.guild.GuildCreateRequest;
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.service.GuildService;
-import com.app.user.data.dto.UserPrincipal;
+import com.app.user.data.dto.UserDto;
 import com.app.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,8 +25,8 @@ public class GuildController {
 
     @GetMapping("/api/guild/guilds")
     public ResponseEntity<?> getUserGuilds(Authentication auth) {
-        UserPrincipal principal =
-                (UserPrincipal) auth.getPrincipal();
+        UserDto principal =
+                (UserDto) auth.getPrincipal();
 
         if (principal == null) return ResponseEntity.status(401).body("Not logged in");
 
@@ -37,7 +37,7 @@ public class GuildController {
     }
     @PostMapping("/api/guild/create")
     public ResponseEntity<GuildInfoDto> createGuild(
-            @AuthenticationPrincipal UserPrincipal user,
+            @AuthenticationPrincipal UserDto user,
             @RequestBody GuildCreateRequest request) {
 
         GuildCreate dto = new GuildCreate(
@@ -54,7 +54,7 @@ public class GuildController {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<?> editGuildSettings(@AuthenticationPrincipal UserPrincipal user) {
+    public ResponseEntity<?> editGuildSettings(@AuthenticationPrincipal UserDto user) {
         return ResponseEntity.ok().build();
     }
 }

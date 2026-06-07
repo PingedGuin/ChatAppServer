@@ -25,7 +25,7 @@ public class GuildEventListener {
     }
 
     @EventListener
-    public void handleGuildCreated(GuildCreatedEvent event) {
+    public void handleGuildCreated(GuildCreatedEvent event) { // todo: refactor to @TransactionalEventListener and separate listeners by responsibility
 
         Long guildId = event.getGuildId();
         Long ownerId = event.getOwnerId();
