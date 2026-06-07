@@ -101,8 +101,9 @@ public class GuildService {
 
     @Transactional
     public GuildInfoDto createGuild(GuildCreate guildCreate) {
-        UserDto userDto = userService.getUserById(guildCreate.getOwnerId());
-        var userEntity = userService.getMapper().toEntity(userDto);
+        if (guildCreate == null) throw new RuntimeException("GuildCreate is null");
+
+        var userEntity =  userService.getUserEntityById(guildCreate.getOwnerId());
         GuildEntity guild = new GuildEntity();
         guild.setName(guildCreate.getName());
         guild.setOwner(userEntity);
@@ -119,7 +120,6 @@ public class GuildService {
                     }
                 }
         );
-
         return mapper.toDto(saved);
     }
 
