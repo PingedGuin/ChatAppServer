@@ -2,7 +2,7 @@ package com.app.member.entity;
 
 import com.app.guild.data.entity.GuildEntity;
 import com.app.role.entity.RoleEntity;
-import com.app.user.data.entity.UserInfoEntity;
+import com.app.user.data.entity.UserEntity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -60,7 +60,7 @@ public class MemberEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private UserInfoEntity userInfo;
+    private UserEntity userInfo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guild_id", nullable = false)

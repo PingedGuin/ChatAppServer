@@ -4,6 +4,7 @@ import com.app.guild.data.dto.guild.GuildCreate;
 import com.app.guild.data.dto.guild.GuildCreateRequest;
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.service.GuildService;
+import com.app.member.service.MemberService;
 import com.app.user.data.dto.UserDto;
 import com.app.user.data.dto.UserPrincipal;
 import com.app.user.service.UserService;
@@ -16,11 +17,11 @@ import java.util.List;
 
 @RestController
 public class GuildController {
-    private final UserService userService;
+    private final MemberService memberService;
     private final GuildService guildService;
 
-    public GuildController(UserService userService, GuildService guildService) {
-        this.userService = userService;
+    public GuildController(MemberService memberService, GuildService guildService) {
+        this.memberService = memberService;
         this.guildService = guildService;
     }
 
@@ -29,7 +30,7 @@ public class GuildController {
         if (user == null) return ResponseEntity.status(401).body("Not logged in");
 
         Long userId = user.getId();
-        List<GuildInfoDto> guildInfoDtoList = userService.getUserGuilds(userId);
+        List<GuildInfoDto> guildInfoDtoList = memberService.getMemberGuilds(userId);
 
         return ResponseEntity.ok(guildInfoDtoList);
     }

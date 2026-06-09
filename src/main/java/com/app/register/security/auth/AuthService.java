@@ -3,7 +3,7 @@ package com.app.register.security.auth;
 import com.app.register.database.entitys.UserSessionEntity;
 import com.app.register.dtos.register.login.LoginRequest;
 import com.app.register.dtos.register.login.LoginResponseDto;
-import com.app.user.data.entity.UserInfoEntity;
+import com.app.user.data.entity.UserEntity;
 import com.app.user.repository.UserInfoRepository;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class AuthService {
     }
 
     public LoginResponseDto login(LoginRequest request) {
-        UserInfoEntity user = userRepository.findByEmail(request.getEmail())
+        UserEntity user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
 
         if (!passwordEncoderService.matches(
@@ -57,7 +57,7 @@ public class AuthService {
                 token
         );
     }
-    private LoginResponseDto mapToLoginResponseDto(UserInfoEntity user,String sessionId,String expireDate,String accessToken) {
+    private LoginResponseDto mapToLoginResponseDto(UserEntity user, String sessionId, String expireDate, String accessToken) {
         return new LoginResponseDto(accessToken, user.getUsername(), expireDate,user.getId().toString(),sessionId);
     }
 }

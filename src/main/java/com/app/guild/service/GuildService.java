@@ -8,6 +8,7 @@ import com.app.guild.data.entity.GuildEntity;
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.mapping.GuildMapper;
 import com.app.guild.repository.GuildRepository;
+import com.app.member.service.MemberService;
 import com.app.role.dto.RoleDto;
 import com.app.member.dto.MemberPermissionDto;
 import com.app.user.data.dto.UserDto;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class GuildService {
     private final GuildRepository guildRepository;
+    private final MemberService memberService;
     private final ApplicationEventPublisher eventPublisher;
     private final Cache<Long, GuildEntity> guildEntityCache = Caffeine.newBuilder()
             .maximumSize(100_000)
@@ -41,8 +43,9 @@ public class GuildService {
 //            .build();
 
 
-    public GuildService(GuildRepository guildRepository, ApplicationEventPublisher eventPublisher, GuildMapper mapper, UserService userService) {
+    public GuildService(GuildRepository guildRepository, MemberService memberService, ApplicationEventPublisher eventPublisher, GuildMapper mapper, UserService userService) {
         this.guildRepository = guildRepository;
+        this.memberService = memberService;
         this.eventPublisher = eventPublisher;
         this.mapper = mapper;
         this.userService = userService;

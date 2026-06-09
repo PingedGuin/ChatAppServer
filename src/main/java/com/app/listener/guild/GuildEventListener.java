@@ -30,7 +30,7 @@ public class GuildEventListener {
         Long guildId = event.getGuildId();
         Long ownerId = event.getOwnerId();
 
-        memberService.addOwner(ownerId, guildId);
+        memberService.createOwnerMember(ownerId, guildId);
 
         roleService.createDefaultRole(guildId);
 

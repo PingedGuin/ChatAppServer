@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserInfoEntity {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,8 +81,8 @@ public class UserInfoEntity {
         updatedAt = LocalDateTime.now();
     }
 
-    public static UserInfoEntity from(RegisterRequest request, String encodedPassword) {
-        return UserInfoEntity.builder()
+    public static UserEntity from(RegisterRequest request, String encodedPassword) {
+        return UserEntity.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .passwordHash(encodedPassword)

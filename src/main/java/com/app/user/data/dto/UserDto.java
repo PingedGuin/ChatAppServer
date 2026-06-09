@@ -1,13 +1,8 @@
 package com.app.user.data.dto;
 
-import com.app.user.data.entity.UserInfoEntity;
+import com.app.user.data.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import java.util.Collection;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -23,14 +18,14 @@ public class UserDto {
     private Boolean verified;
     private String bio;
 
-    public UserDto(UserInfoEntity userInfoEntity) {
-        this.id = userInfoEntity.getId();
-        this.username = userInfoEntity.getUsername();
-        this.displayName = userInfoEntity.getDisplayName();
-        this.email = userInfoEntity.getEmail();
-        this.avatar = userInfoEntity.getAvatar();
-        this.banner = userInfoEntity.getBanner();
-        this.status = userInfoEntity.getStatus();
-        this.verified = userInfoEntity.isVerified();
+    public UserDto(UserEntity userEntity) {
+        this.id = userEntity.getId();
+        this.username = userEntity.getUsername();
+        this.displayName = userEntity.getDisplayName();
+        this.email = userEntity.getEmail();
+        this.avatar = userEntity.getAvatar();
+        this.banner = userEntity.getBanner();
+        this.status = userEntity.getStatus();
+        this.verified = userEntity.isVerified();
     }
 }

@@ -3,7 +3,7 @@ package com.app.guild.data.entity;
 import com.app.channel.entity.ChannelEntity;
 import com.app.member.entity.MemberEntity;
 import com.app.role.entity.RoleEntity;
-import com.app.user.data.entity.UserInfoEntity;
+import com.app.user.data.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,7 +43,7 @@ public class GuildEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
-    private UserInfoEntity owner;
+    private UserEntity owner;
 
     @Builder.Default
     @Column(name = "is_public")

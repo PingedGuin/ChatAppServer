@@ -2,11 +2,12 @@ package com.app.user.service;
 
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.data.entity.GuildEntity;
+import com.app.member.service.MemberService;
 import com.app.user.data.dto.UserPrincipal;
 import com.app.user.data.dto.UserInfo;
 import com.app.user.data.dto.UserDto;
 import com.app.user.data.dto.mapper.UserMapper;
-import com.app.user.data.entity.UserInfoEntity;
+import com.app.user.data.entity.UserEntity;
 import com.app.user.repository.UserInfoRepository;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -18,7 +19,8 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
-    UserInfoRepository userInfoRepository;
+    private final UserInfoRepository userInfoRepository;
+    private final MemberService memberService;
     @Getter
     private final UserMapper mapper;
 
@@ -27,46 +29,30 @@ public class UserService {
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
 
-    private final Cache<Long, UserInfoEntity> entityCache = Caffeine.newBuilder()
+    private final Cache<Long, UserEntity> entityCache = Caffeine.newBuilder()
             .maximumSize(100_000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
 
-    public UserService(UserInfoRepository userInfoRepository, UserMapper mapper) {
+    public UserService(UserInfoRepository userInfoRepository, MemberService memberService, UserMapper mapper) {
         this.userInfoRepository = userInfoRepository;
+        this.memberService = memberService;
         this.mapper = mapper;
     }
 
     public UserInfo getUserInfo(String email) {
-        UserInfoEntity entity = userInfoRepository.findByEmail(email)
+        UserEntity entity = userInfoRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return entityToDto(entity);
     }
 
-    private UserInfo entityToDto(UserInfoEntity entity) {
+    private UserInfo entityToDto(UserEntity entity) {
         return new UserInfo(entity.getUsername(), entity.getEmail());
     }
 
-    private UserDto entityToPrincipalDto(UserInfoEntity userInfoEntity) {
-        return new UserDto(userInfoEntity);
-    }
-
-    public List<GuildInfoDto> getUserGuilds(Long userId) {
-
-        List<GuildEntity> guilds = userInfoRepository.findUserGuilds(userId);
-        return guilds.stream()
-                .map(g -> new GuildInfoDto(
-                        g.getId(),
-                        g.getName(),
-                        g.getDescription(),
-                        g.getGuildIcon(),
-                        g.getGuildBanner(),
-                        g.getOwner().getId(),
-                        g.getMemberCount(),
-                        g.getChannelCount()
-                ))
-                .toList();
+    private UserDto entityToPrincipalDto(UserEntity userEntity) {
+        return new UserDto(userEntity);
     }
 
     public UserDto getUserById(Long userId) {
@@ -106,13 +92,13 @@ public class UserService {
         );
     }
 
-    public UserInfoEntity getUserEntityById(Long userId) {
-        UserInfoEntity cachedUser = entityCache.getIfPresent(userId);
+    public UserEntity getUserEntityById(Long userId) {
+        UserEntity cachedUser = entityCache.getIfPresent(userId);
         if (cachedUser != null) {
             return cachedUser;
         }
 
-        UserInfoEntity user = userInfoRepository.findById(userId)
+        UserEntity user = userInfoRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         entityCache.put(userId, user);

@@ -1,6 +1,6 @@
 package com.app.register.security.auth;
 
-import com.app.user.data.entity.UserInfoEntity;
+import com.app.user.data.entity.UserEntity;
 import com.app.user.repository.UserInfoRepository;
 import com.app.register.dtos.register.RegisterRequest;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class RegisterService {
 
         String encodedPassword = passwordEncoderService.encode(request.getPassword());
 
-        UserInfoEntity user = UserInfoEntity.builder()
+        UserEntity user = UserEntity.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .passwordHash(encodedPassword)
