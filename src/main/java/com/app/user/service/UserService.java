@@ -87,10 +87,23 @@ public class UserService {
 
         return user;
     }
-
     public UserPrincipal getUserPrincipalById(Long userId) {
-        var userInfo =  getUserById(userId);
-        return new UserPrincipal(userInfo.getId(), userInfo.getUsername(), userInfo.getEmail(), userInfo.getVerified(), userInfo.getRole());
+        var userInfo = entityCache.getIfPresent(userId);
+
+        if (userInfo == null) {
+            userInfo = userInfoRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            entityCache.put(userId, userInfo);
+        }
+
+        return new UserPrincipal(
+                userInfo.getId(),
+                userInfo.getUsername(),
+                userInfo.getEmail(),
+                userInfo.isVerified(),
+                userInfo.getRole()
+        );
     }
 
     public UserInfoEntity getUserEntityById(Long userId) {
