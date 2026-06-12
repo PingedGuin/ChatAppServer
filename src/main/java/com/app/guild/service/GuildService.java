@@ -124,4 +124,11 @@ public class GuildService {
         eventPublisher.publishEvent(new GuildCreatedEvent(guildCreate.getOwnerId(), saved.getId()));
         return mapper.toDto(saved);
     }
+
+    public GuildEntity getGuildEntityById(Long guildId) {
+        if (guildId != null) throw new IllegalArgumentException("Guild Id cannot be null");
+
+
+        return null;
+    }
 }

@@ -28,7 +28,7 @@ public class GuildEventListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleGuildCreated(GuildCreatedEvent event) {
 
-        memberService.createMemberGuild(event.getUserId(), event.getGuildId());
+        memberService.addMemberToGuild(event.getUserId(), event.getGuildId());
         roleService.createDefaultRole(event.getGuildId());
         channelService.createGeneralChannel(event.getGuildId());
     }

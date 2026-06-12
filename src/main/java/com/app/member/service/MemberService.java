@@ -2,11 +2,9 @@ package com.app.member.service;
 
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.data.entity.GuildEntity;
-import com.app.guild.repository.GuildRepository;
 import com.app.member.dto.MemberDto;
 import com.app.member.entity.MemberEntity;
 import com.app.member.repository.MemberRepository;
-import com.app.user.data.dto.UserDto;
 import com.app.user.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +13,9 @@ import java.util.List;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final GuildRepository guildRepository;
     private final UserService userService;
-    public MemberService(MemberRepository memberRepository, GuildRepository guildRepository, UserService userService) {
+    public MemberService(MemberRepository memberRepository, UserService userService) {
         this.memberRepository = memberRepository;
-        this.guildRepository = guildRepository;
         this.userService = userService;
     }
 
@@ -71,7 +67,7 @@ public class MemberService {
                 ))
                 .toList();
     }
-    public void createMemberGuild(Long userId, Long guildId) {
+    public void addMemberToGuild(Long userId, Long guildId) {
 
         var member = MemberEntity.builder()
                 .userInfo(userService.getUserEntityById(userDto.getId()))
