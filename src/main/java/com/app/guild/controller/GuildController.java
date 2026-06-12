@@ -7,7 +7,6 @@ import com.app.guild.service.GuildService;
 import com.app.member.service.MemberService;
 import com.app.user.data.dto.UserDto;
 import com.app.user.data.dto.UserPrincipal;
-import com.app.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,14 +25,15 @@ public class GuildController {
     }
 
     @GetMapping("/api/guild/guilds")
-    public ResponseEntity<?> getUserGuilds(Authentication auth,@AuthenticationPrincipal UserPrincipal user) {
+    public ResponseEntity<?> getUserGuilds(Authentication auth, @AuthenticationPrincipal UserPrincipal user) {
         if (user == null) return ResponseEntity.status(401).body("Not logged in");
 
         Long userId = user.getId();
-        List<GuildInfoDto> guildInfoDtoList = memberService.getMemberGuilds(userId);
+        List<GuildInfoDto> guildInfoDtoList = memberService.getUserGuilds(userId);
 
         return ResponseEntity.ok(guildInfoDtoList);
     }
+
     @PostMapping("/api/guild/create")
     public ResponseEntity<GuildInfoDto> createGuild(
             @AuthenticationPrincipal UserPrincipal user,
@@ -48,6 +48,7 @@ public class GuildController {
 
         return ResponseEntity.ok(created);
     }
+
     @DeleteMapping("/api/guild/delete/{guildId}")
     public ResponseEntity<?> deleteGuild(@PathVariable String guildId) {
         return ResponseEntity.ok().build();

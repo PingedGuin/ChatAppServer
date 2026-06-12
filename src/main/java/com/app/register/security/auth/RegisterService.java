@@ -1,17 +1,17 @@
 package com.app.register.security.auth;
 
 import com.app.user.data.entity.UserEntity;
-import com.app.user.repository.UserInfoRepository;
+import com.app.user.repository.UserRepository;
 import com.app.register.dtos.register.RegisterRequest;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RegisterService {
     private final PasswordEncoderService passwordEncoderService;
-    UserInfoRepository userInfoRepository;
+    UserRepository userRepository;
 
-    RegisterService(UserInfoRepository userInfoRepository, PasswordEncoderService passwordEncoderService) {
-        this.userInfoRepository = userInfoRepository;
+    RegisterService(UserRepository userRepository, PasswordEncoderService passwordEncoderService) {
+        this.userRepository = userRepository;
         this.passwordEncoderService = passwordEncoderService;
     }
 
@@ -19,8 +19,8 @@ public class RegisterService {
 
         if (request == null || request.IsEmpty()) return false;
 
-        if (userInfoRepository.existsByEmail(request.getEmail())) return false;
-        if (userInfoRepository.existsByUsername(request.getUsername())) return false;
+        if (userRepository.existsByEmail(request.getEmail())) return false;
+        if (userRepository.existsByUsername(request.getUsername())) return false;
 
         String encodedPassword = passwordEncoderService.encode(request.getPassword());
 
@@ -30,7 +30,7 @@ public class RegisterService {
                 .passwordHash(encodedPassword)
                 .build();
 
-        userInfoRepository.save(user);
+        userRepository.save(user);
 
         return true;
     }

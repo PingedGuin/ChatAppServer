@@ -46,9 +46,6 @@ public class MemberEntity {
     private String avatar;
 
     @Builder.Default
-    private boolean owner = false;
-
-    @Builder.Default
     private boolean muted = false;
 
     @Builder.Default

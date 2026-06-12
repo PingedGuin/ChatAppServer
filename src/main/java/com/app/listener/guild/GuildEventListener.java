@@ -4,8 +4,9 @@ import com.app.channel.service.ChannelService;
 import com.app.event.guild.GuildCreatedEvent;
 import com.app.member.service.MemberService;
 import com.app.role.service.RoleService;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
 public class GuildEventListener {
@@ -24,16 +25,11 @@ public class GuildEventListener {
         this.channelService = channelService;
     }
 
-    @EventListener
-    public void handleGuildCreated(GuildCreatedEvent event) { // todo: refactor to @TransactionalEventListener and separate listeners by responsibility
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void handleGuildCreated(GuildCreatedEvent event) {
 
-        Long guildId = event.getGuildId();
-        Long ownerId = event.getOwnerId();
-
-        memberService.createOwnerMember(ownerId, guildId);
-
-        roleService.createDefaultRole(guildId);
-
-        channelService.createGeneralChannel(guildId);
+        memberService.createMemberGuild(event.getUserId(), event.getGuildId());
+        roleService.createDefaultRole(event.getGuildId());
+        channelService.createGeneralChannel(event.getGuildId());
     }
 }

@@ -195,3 +195,23 @@ ALTER TABLE member_roles
 
 ALTER TABLE member_roles
     ADD CONSTRAINT fk_memrol_on_role_entity FOREIGN KEY (role_id) REFERENCES roles (id);
+
+ALTER TABLE guilds
+    ADD COLUMN guild_id VARCHAR(255);
+
+UPDATE guilds
+SET guild_id = gen_random_uuid()::text
+WHERE guild_id IS NULL;
+
+
+ALTER TABLE guilds
+    ALTER COLUMN guild_id SET NOT NULL;
+
+ALTER TABLE guilds
+    ADD CONSTRAINT uc_guilds_guild_id UNIQUE (guild_id);
+
+ALTER TABLE members
+ drop column owner
+
+ALTER TABLE guilds
+ drop column guild_id

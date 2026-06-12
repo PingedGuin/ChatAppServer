@@ -1,15 +1,10 @@
 package com.app.event.guild;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-
+@AllArgsConstructor
 @Getter
 public class GuildCreatedEvent {
-
     private final Long guildId;
-    private final Long ownerId;
-
-    public GuildCreatedEvent(Long guildId, Long ownerId) {
-        this.guildId = guildId;
-        this.ownerId = ownerId;
-    }
+    private final Long userId;
 }

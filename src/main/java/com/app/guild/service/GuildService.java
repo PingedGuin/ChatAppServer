@@ -8,16 +8,21 @@ import com.app.guild.data.entity.GuildEntity;
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.mapping.GuildMapper;
 import com.app.guild.repository.GuildRepository;
+import com.app.member.entity.MemberEntity;
+import com.app.member.repository.MemberRepository;
 import com.app.member.service.MemberService;
 import com.app.role.dto.RoleDto;
 import com.app.member.dto.MemberPermissionDto;
-import com.app.user.data.dto.UserDto;
+import com.app.user.data.entity.UserEntity;
 import com.app.user.service.UserService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import lombok.Builder;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -27,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class GuildService {
     private final GuildRepository guildRepository;
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final ApplicationEventPublisher eventPublisher;
     private final Cache<Long, GuildEntity> guildEntityCache = Caffeine.newBuilder()
@@ -43,8 +49,9 @@ public class GuildService {
 //            .build();
 
 
-    public GuildService(GuildRepository guildRepository, MemberService memberService, ApplicationEventPublisher eventPublisher, GuildMapper mapper, UserService userService) {
+    public GuildService(GuildRepository guildRepository, MemberRepository memberRepository, MemberService memberService, ApplicationEventPublisher eventPublisher, GuildMapper mapper, UserService userService) {
         this.guildRepository = guildRepository;
+        this.memberRepository = memberRepository;
         this.memberService = memberService;
         this.eventPublisher = eventPublisher;
         this.mapper = mapper;
@@ -102,29 +109,19 @@ public class GuildService {
         return false;
     }
 
-    @Transactional
     public GuildInfoDto createGuild(GuildCreate guildCreate) {
-        if (guildCreate == null) throw new RuntimeException("GuildCreate is null");
+        if (guildCreate == null) throw new IllegalArgumentException("Guild Create cannot be null");
 
-        var userEntity =  userService.getUserEntityById(guildCreate.getOwnerId());
-        GuildEntity guild = new GuildEntity();
-        guild.setName(guildCreate.getName());
-        guild.setOwner(userEntity);
+        UserEntity owner = userService.getUserEntityById(guildCreate.getOwnerId());
+
+        GuildEntity guild = GuildEntity.builder()
+                .name(guildCreate.getName())
+                .owner(owner)
+                .build();
 
         GuildEntity saved = guildRepository.save(guild);
 
-        TransactionSynchronizationManager.registerSynchronization(
-                new TransactionSynchronization() {
-                    @Override
-                    public void afterCommit() {
-                        eventPublisher.publishEvent(
-                                new GuildCreatedEvent(saved.getId(), guildCreate.getOwnerId())
-                        );
-                    }
-                }
-        );
+        eventPublisher.publishEvent(new GuildCreatedEvent(guildCreate.getOwnerId(), saved.getId()));
         return mapper.toDto(saved);
     }
-
-
 }

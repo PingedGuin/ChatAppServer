@@ -1,26 +1,21 @@
 package com.app.user.service;
 
-import com.app.guild.data.dto.guild.GuildInfoDto;
-import com.app.guild.data.entity.GuildEntity;
-import com.app.member.service.MemberService;
 import com.app.user.data.dto.UserPrincipal;
 import com.app.user.data.dto.UserInfo;
 import com.app.user.data.dto.UserDto;
 import com.app.user.data.dto.mapper.UserMapper;
 import com.app.user.data.entity.UserEntity;
-import com.app.user.repository.UserInfoRepository;
+import com.app.user.repository.UserRepository;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
-    private final UserInfoRepository userInfoRepository;
-    private final MemberService memberService;
+    private final UserRepository userRepository;
     @Getter
     private final UserMapper mapper;
 
@@ -34,14 +29,13 @@ public class UserService {
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
 
-    public UserService(UserInfoRepository userInfoRepository, MemberService memberService, UserMapper mapper) {
-        this.userInfoRepository = userInfoRepository;
-        this.memberService = memberService;
+    public UserService(UserRepository userRepository, UserMapper mapper) {
+        this.userRepository = userRepository;
         this.mapper = mapper;
     }
 
     public UserInfo getUserInfo(String email) {
-        UserEntity entity = userInfoRepository.findByEmail(email)
+        UserEntity entity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return entityToDto(entity);
@@ -62,7 +56,7 @@ public class UserService {
             return cachedUser;
         }
 
-        var userEntity = userInfoRepository.findById(userId);
+        var userEntity = userRepository.findById(userId);
 
         if (userEntity.isEmpty()) {
             return null;
@@ -77,7 +71,7 @@ public class UserService {
         var userInfo = entityCache.getIfPresent(userId);
 
         if (userInfo == null) {
-            userInfo = userInfoRepository.findById(userId)
+            userInfo = userRepository.findById(userId)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
             entityCache.put(userId, userInfo);
@@ -98,7 +92,7 @@ public class UserService {
             return cachedUser;
         }
 
-        UserEntity user = userInfoRepository.findById(userId)
+        UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         entityCache.put(userId, user);

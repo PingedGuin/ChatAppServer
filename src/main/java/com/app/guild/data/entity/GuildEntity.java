@@ -84,6 +84,7 @@ public class GuildEntity {
     public void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+
     }
 
     @PreUpdate

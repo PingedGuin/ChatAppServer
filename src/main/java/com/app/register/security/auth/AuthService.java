@@ -4,7 +4,7 @@ import com.app.register.database.entitys.UserSessionEntity;
 import com.app.register.dtos.register.login.LoginRequest;
 import com.app.register.dtos.register.login.LoginResponseDto;
 import com.app.user.data.entity.UserEntity;
-import com.app.user.repository.UserInfoRepository;
+import com.app.user.repository.UserRepository;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +13,13 @@ import java.util.UUID;
 
 @Service
 public class AuthService {
-    private final UserInfoRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoderService passwordEncoderService;
     private final TokenService tokenService;
     private final SessionService sessionService;
 
-    AuthService(UserInfoRepository userInfoRepository, PasswordEncoderService passwordEncoderService, TokenService tokenService, SessionService sessionService) {
-        this.userRepository = userInfoRepository;
+    AuthService(UserRepository userRepository, PasswordEncoderService passwordEncoderService, TokenService tokenService, SessionService sessionService) {
+        this.userRepository = userRepository;
         this.passwordEncoderService = passwordEncoderService;
         this.tokenService = tokenService;
         this.sessionService = sessionService;

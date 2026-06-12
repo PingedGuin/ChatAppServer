@@ -6,11 +6,9 @@ import com.app.guild.repository.GuildRepository;
 import com.app.member.dto.MemberDto;
 import com.app.member.entity.MemberEntity;
 import com.app.member.repository.MemberRepository;
-import com.app.user.data.entity.UserEntity;
-import com.app.user.repository.UserInfoRepository;
+import com.app.user.data.dto.UserDto;
 import com.app.user.service.UserService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,11 +16,11 @@ import java.util.List;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final GuildRepository guildRepository;
-    private final UserInfoRepository userInfoRepository;
-    public MemberService(MemberRepository memberRepository, GuildRepository guildRepository, UserInfoRepository userInfoRepository) {
+    private final UserService userService;
+    public MemberService(MemberRepository memberRepository, GuildRepository guildRepository, UserService userService) {
         this.memberRepository = memberRepository;
         this.guildRepository = guildRepository;
-        this.userInfoRepository = userInfoRepository;
+        this.userService = userService;
     }
 
     public MemberDto getUserPermissions(Long id, Long guildId) {
@@ -58,29 +56,7 @@ public class MemberService {
 //        return dto;
 //    }
 
-    @Transactional
-    public void createOwnerMember(Long ownerId, Long guildId) {
-
-        UserEntity user = userInfoRepository.findById(ownerId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        GuildEntity guild = guildRepository.findById(guildId)
-                .orElseThrow(() -> new RuntimeException("Guild not found"));
-
-        MemberEntity member = MemberEntity.builder()
-                .userInfo(user)
-                .guild(guild)
-                .username(user.getUsername())
-                .nickname(user.getUsername())
-                .owner(true)
-                .muted(false)
-                .banned(false)
-                .build();
-
-         memberRepository.save(member);
-    }
-
-    public List<GuildInfoDto> getMemberGuilds(Long userId) {
+    public List<GuildInfoDto> getUserGuilds(Long userId) {
         List<GuildEntity> guilds = memberRepository.findGuildsByUserId(userId);
         return guilds.stream()
                 .map(g -> new GuildInfoDto(
@@ -95,4 +71,16 @@ public class MemberService {
                 ))
                 .toList();
     }
+    public void createMemberGuild(Long userId, Long guildId) {
+
+        var member = MemberEntity.builder()
+                .userInfo(userService.getUserEntityById(userDto.getId()))
+                .nickname(null)
+                .avatar(null)
+                .roles(null)
+                .guild(guildEntity)
+                .build();
+
+    }
+
 }
