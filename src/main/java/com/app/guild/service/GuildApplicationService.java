@@ -1,8 +1,11 @@
 package com.app.guild.service;
 
+import com.app.channel.service.ChannelService;
 import com.app.guild.data.entity.GuildEntity;
 import com.app.member.entity.MemberEntity;
 import com.app.member.repository.MemberRepository;
+import com.app.member.service.MemberService;
+import com.app.role.service.RoleService;
 import com.app.user.data.entity.UserEntity;
 import com.app.user.service.UserService;
 import org.springframework.stereotype.Service;
@@ -11,14 +14,17 @@ import org.springframework.stereotype.Service;
 public class GuildApplicationService {
     private final UserService userService;
     private final GuildService guildService;
-    private final MemberRepository memberRepository;
-
-    public GuildApplicationService(UserService userService, GuildService guildService, MemberRepository memberRepository) {
+    private final RoleService roleService;
+    private final ChannelService channelService;
+    private final MemberService memberService;
+    public GuildApplicationService(UserService userService, GuildService guildService, RoleService roleService, ChannelService channelService, MemberService memberService) {
         this.userService = userService;
         this.guildService = guildService;
-        this.memberRepository = memberRepository;
+        this.roleService = roleService;
+        this.channelService = channelService;
+        this.memberService = memberService;
     }
-    public void createMemberGuild(Long userId, Long guildId) {
+    public void addMemberToGuild(Long userId, Long guildId) {
 
         UserEntity user = userService.getUserEntityById(userId);
         GuildEntity guild = guildService.getGuildEntityById(guildId);
@@ -27,8 +33,12 @@ public class GuildApplicationService {
                 .userInfo(user)
                 .guild(guild)
                 .build();
-
-        memberRepository.save(member);
+        memberService.save(member);
     }
 
+    public void handleGuildCreation(Long guildId, Long userId) {
+        addMemberToGuild(userId, guildId);
+        roleService.createDefaultRole(guildId);
+        channelService.createGeneralChannel(guildId);
+    }
 }

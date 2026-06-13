@@ -67,16 +67,8 @@ public class MemberService {
                 ))
                 .toList();
     }
-    public void addMemberToGuild(Long userId, Long guildId) {
 
-        var member = MemberEntity.builder()
-                .userInfo(userService.getUserEntityById(userDto.getId()))
-                .nickname(null)
-                .avatar(null)
-                .roles(null)
-                .guild(guildEntity)
-                .build();
-
+    public void save(MemberEntity memberEntity) {
+        memberRepository.save(memberEntity);
     }
-
 }
