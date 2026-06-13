@@ -2,6 +2,7 @@ package com.app.listener.guild;
 
 import com.app.event.guild.GuildCreatedEvent;
 import com.app.guild.service.GuildApplicationService;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -10,6 +11,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 public class GuildEventListener {
 
     private final GuildApplicationService guildApplicationService;
+
     public GuildEventListener(GuildApplicationService guildApplicationService
     ) {
         this.guildApplicationService = guildApplicationService;

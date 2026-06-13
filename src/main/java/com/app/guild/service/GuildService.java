@@ -18,6 +18,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -98,6 +99,7 @@ public class GuildService {
         return false;
     }
 
+    @Transactional
     public GuildInfoDto createGuild(GuildCreate guildCreate) {
         if (guildCreate == null) throw new IllegalArgumentException("Guild Create cannot be null");
 
@@ -110,7 +112,7 @@ public class GuildService {
 
         GuildEntity saved = guildRepository.save(guild);
 
-        eventPublisher.publishEvent(new GuildCreatedEvent(guildCreate.getOwnerId(), saved.getId()));
+        eventPublisher.publishEvent(new GuildCreatedEvent(saved.getId(), owner.getId()));
         return mapper.toDto(saved);
     }
 
