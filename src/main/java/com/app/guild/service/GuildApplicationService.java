@@ -8,6 +8,7 @@ import com.app.role.service.RoleService;
 import com.app.user.data.entity.UserEntity;
 import com.app.user.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GuildApplicationService {
@@ -25,6 +26,7 @@ public class GuildApplicationService {
         this.channelService = channelService;
         this.memberService = memberService;
     }
+
     public void addMemberToGuild(Long userId, Long guildId) {
 
         UserEntity user = userService.getUserEntityById(userId);
@@ -37,6 +39,7 @@ public class GuildApplicationService {
         memberService.save(member);
     }
 
+    @Transactional
     public void handleGuildCreation(Long guildId, Long userId) {
         addMemberToGuild(userId, guildId);
         roleService.createDefaultRole(guildId);

@@ -55,13 +55,15 @@ public class WebSocketEvents {
         if (accessor.getUser() == null) {
             return;
         }
-        String userId = accessor.getUser().getName();
+        var userId = accessor.getUser().getName();
+
+        System.out.println(userId);
 
         if (userId.equals("anonymous")) {
             return;
         } // todo remove this
 
-        onlineUsers.remove(Long.parseLong(userId));
+        onlineUsers.remove(userId);
         log.info("DISCONNECTED: {}", userId);
     }
     @EventListener

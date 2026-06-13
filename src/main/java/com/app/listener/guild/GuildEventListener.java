@@ -2,7 +2,6 @@ package com.app.listener.guild;
 
 import com.app.event.guild.GuildCreatedEvent;
 import com.app.guild.service.GuildApplicationService;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -17,7 +16,7 @@ public class GuildEventListener {
         this.guildApplicationService = guildApplicationService;
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void handleGuildCreated(GuildCreatedEvent event) {
         guildApplicationService.handleGuildCreation(event.getGuildId(), event.getUserId());
     }

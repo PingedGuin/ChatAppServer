@@ -8,8 +8,6 @@ import com.app.guild.data.entity.GuildEntity;
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.mapping.GuildMapper;
 import com.app.guild.repository.GuildRepository;
-import com.app.member.repository.MemberRepository;
-import com.app.member.service.MemberService;
 import com.app.role.dto.RoleDto;
 import com.app.member.dto.MemberPermissionDto;
 import com.app.user.data.entity.UserEntity;
