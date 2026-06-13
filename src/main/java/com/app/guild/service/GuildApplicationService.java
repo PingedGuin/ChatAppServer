@@ -3,7 +3,6 @@ package com.app.guild.service;
 import com.app.channel.service.ChannelService;
 import com.app.guild.data.entity.GuildEntity;
 import com.app.member.entity.MemberEntity;
-import com.app.member.repository.MemberRepository;
 import com.app.member.service.MemberService;
 import com.app.role.service.RoleService;
 import com.app.user.data.entity.UserEntity;
@@ -17,7 +16,9 @@ public class GuildApplicationService {
     private final RoleService roleService;
     private final ChannelService channelService;
     private final MemberService memberService;
-    public GuildApplicationService(UserService userService, GuildService guildService, RoleService roleService, ChannelService channelService, MemberService memberService) {
+
+    public GuildApplicationService(UserService userService, GuildService guildService, RoleService roleService,
+                                   ChannelService channelService, MemberService memberService) {
         this.userService = userService;
         this.guildService = guildService;
         this.roleService = roleService;

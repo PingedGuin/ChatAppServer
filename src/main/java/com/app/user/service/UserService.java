@@ -88,9 +88,8 @@ public class UserService {
 
     public UserEntity getUserEntityById(Long userId) {
         UserEntity cachedUser = entityCache.getIfPresent(userId);
-        if (cachedUser != null) {
+        if (cachedUser != null)
             return cachedUser;
-        }
 
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));

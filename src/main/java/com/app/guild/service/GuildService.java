@@ -8,7 +8,6 @@ import com.app.guild.data.entity.GuildEntity;
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.mapping.GuildMapper;
 import com.app.guild.repository.GuildRepository;
-import com.app.member.entity.MemberEntity;
 import com.app.member.repository.MemberRepository;
 import com.app.member.service.MemberService;
 import com.app.role.dto.RoleDto;
@@ -17,14 +16,8 @@ import com.app.user.data.entity.UserEntity;
 import com.app.user.service.UserService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import lombok.Builder;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
-import org.springframework.transaction.support.TransactionSynchronization;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +25,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class GuildService {
     private final GuildRepository guildRepository;
-    private final MemberRepository memberRepository;
-    private final MemberService memberService;
     private final ApplicationEventPublisher eventPublisher;
     private final Cache<Long, GuildEntity> guildEntityCache = Caffeine.newBuilder()
             .maximumSize(100_000)
@@ -49,10 +40,8 @@ public class GuildService {
 //            .build();
 
 
-    public GuildService(GuildRepository guildRepository, MemberRepository memberRepository, MemberService memberService, ApplicationEventPublisher eventPublisher, GuildMapper mapper, UserService userService) {
+    public GuildService(GuildRepository guildRepository, ApplicationEventPublisher eventPublisher, GuildMapper mapper, UserService userService) {
         this.guildRepository = guildRepository;
-        this.memberRepository = memberRepository;
-        this.memberService = memberService;
         this.eventPublisher = eventPublisher;
         this.mapper = mapper;
         this.userService = userService;
@@ -126,9 +115,15 @@ public class GuildService {
     }
 
     public GuildEntity getGuildEntityById(Long guildId) {
-        if (guildId != null) throw new IllegalArgumentException("Guild Id cannot be null");
+        if (guildId == null) throw new IllegalArgumentException("Guild Id cannot be null");
 
+        var guild = guildEntityCache.getIfPresent(guildId);
+        if (guild != null) return guild;
 
-        return null;
+        var entity = guildRepository.findById(guildId).orElseThrow(()
+                -> new RuntimeException("Guild not found"));
+
+        guildEntityCache.put(guildId, entity);
+        return entity;
     }
 }
