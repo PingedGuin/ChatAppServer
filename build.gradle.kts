@@ -45,12 +45,8 @@ dependencies {
     implementation("org.reactivestreams:reactive-streams:1.0.4")
     implementation("io.projectreactor:reactor-core:3.5.9")
     implementation("io.projectreactor.netty:reactor-netty:1.1.13")
-
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
-
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
 }
 

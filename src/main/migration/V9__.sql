@@ -210,8 +210,5 @@ ALTER TABLE guilds
 ALTER TABLE guilds
     ADD CONSTRAINT uc_guilds_guild_id UNIQUE (guild_id);
 
-ALTER TABLE members
- drop column owner
-
 ALTER TABLE guilds
  drop column guild_id

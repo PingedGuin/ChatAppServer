@@ -50,7 +50,8 @@ public class GuildController {
     }
 
     @DeleteMapping("/api/guild/delete/{guildId}")
-    public ResponseEntity<?> deleteGuild(@PathVariable String guildId) {
+    public ResponseEntity<?> deleteGuild(@PathVariable String guildId, @AuthenticationPrincipal UserPrincipal user) {
+
         return ResponseEntity.ok().build();
     }
 
