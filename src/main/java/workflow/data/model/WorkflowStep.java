@@ -1,7 +1,5 @@
 package workflow.data.model;
 
-import workflow.data.dto.StepResult;
-
 /**
  * Represents a single step in the workflow execution process. Each step defines a
  * specific unit of work or logic to be executed as part of the overall workflow.

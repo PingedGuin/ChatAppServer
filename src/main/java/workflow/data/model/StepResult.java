@@ -1,4 +1,4 @@
-package workflow.data.dto;
+package workflow.data.model;
 
 import lombok.Data;
 
