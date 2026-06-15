@@ -15,6 +15,12 @@ public class WorkflowService {
         // policyEngine.check();
 
 
+        // TODO: load workflow definition
+
+        // TODO: create workflow instance
+
+        // TODO: execute workflow
+
         return "Workflow started";
     }
 
