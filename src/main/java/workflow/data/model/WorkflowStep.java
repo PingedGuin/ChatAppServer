@@ -15,6 +15,7 @@ package workflow.data.model;
  */
 public interface WorkflowStep {
     StepResult execute(
+            WorkflowDefinition definition,
             WorkflowContext context
     );
 }
