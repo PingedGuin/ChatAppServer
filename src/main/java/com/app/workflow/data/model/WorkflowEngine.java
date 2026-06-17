@@ -31,7 +31,6 @@ public class WorkflowEngine {
                 break;
             }
         }
-
-        System.out.println("Workflow finished");
+        log.info("Workflow completed");
     }
 }
