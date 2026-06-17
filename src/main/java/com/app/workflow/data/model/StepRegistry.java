@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.springframework.stereotype.Component;
 import com.app.workflow.annotation.Step;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -48,8 +49,6 @@ public class StepRegistry {
             }
         }
     }
-
-
 
     public void register(String name, WorkflowStep step) {
         steps.put(name, step);

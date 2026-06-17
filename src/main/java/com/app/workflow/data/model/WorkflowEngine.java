@@ -1,8 +1,10 @@
 package com.app.workflow.data.model;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class WorkflowEngine {
 
     private final StepRegistry registry;
@@ -14,9 +16,7 @@ public class WorkflowEngine {
     public void execute(WorkflowDefinition definition, WorkflowContext context) {
 
         for (String stepName : definition.getSteps()) {
-
-            System.out.println("Executing: " + stepName);
-
+            log.info("Executing step: {}", stepName);
             WorkflowStep step = registry.get(stepName);
 
             if (step == null) {
@@ -26,8 +26,8 @@ public class WorkflowEngine {
 
             StepResult result = step.execute(definition, context);
 
-            if (!result.isSuccess()) {
-                System.out.println("Workflow stopped at: " + stepName);
+            if (result.getStatus() == StepStatus.STOPPED) {
+                log.info("Workflow stopped at step: {}", stepName);
                 break;
             }
         }

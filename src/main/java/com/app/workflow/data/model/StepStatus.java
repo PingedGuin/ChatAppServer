@@ -5,5 +5,6 @@ public enum StepStatus {
     FAILED,
     SKIPPED,
     RETRY,
-    WAITING
+    WAITING,
+    STOPPED
 }

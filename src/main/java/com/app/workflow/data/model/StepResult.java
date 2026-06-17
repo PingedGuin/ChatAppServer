@@ -1,23 +1,19 @@
 package com.app.workflow.data.model;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Data
+@Getter
+@AllArgsConstructor
 public class StepResult {
-
-    private final boolean success;
+    private final StepStatus status;
     private final String message;
 
-    private StepResult(boolean success, String message) {
-        this.success = success;
-        this.message = message;
-    }
-
     public static StepResult success() {
-        return new StepResult(true, null);
+        return new StepResult(StepStatus.SUCCESS, null);
     }
 
     public static StepResult failure(String message) {
-        return new StepResult(false, message);
+        return new StepResult(StepStatus.FAILED, message);
     }
 }
