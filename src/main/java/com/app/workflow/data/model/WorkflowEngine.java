@@ -1,5 +1,8 @@
-package workflow.data.model;
+package com.app.workflow.data.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class WorkflowEngine {
 
     private final StepRegistry registry;

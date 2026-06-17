@@ -1,8 +1,10 @@
-package workflow.service;
+package com.app.workflow.service;
 
 import com.app.policy.PolicyEngine;
-import workflow.data.dto.StartWorkflowRequest;
+import com.app.workflow.data.dto.StartWorkflowRequest;
+import org.springframework.stereotype.Service;
 
+@Service
 public class WorkflowService {
     private final PolicyEngine policyEngine;
 

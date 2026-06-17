@@ -1,4 +1,4 @@
-package workflow.data.model;
+package com.app.workflow.data.model;
 
 /**
  * Represents a single step in the workflow execution process. Each step defines a

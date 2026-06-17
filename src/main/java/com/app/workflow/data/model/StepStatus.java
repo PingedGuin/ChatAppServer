@@ -1,4 +1,4 @@
-package workflow.data.model;
+package com.app.workflow.data.model;
 
 public enum StepStatus {
     SUCCESS,

@@ -1,11 +1,9 @@
-package workflow.data.model;
+package com.app.workflow.data.model;
 
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.springframework.stereotype.Component;
-import workflow.step.annotation.Step;
-
-import java.lang.reflect.Constructor;
+import com.app.workflow.annotation.Step;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +20,7 @@ public class StepRegistry {
     private void loadSteps() {
 
         Reflections reflections =
-                new Reflections("workflow.step");
+                new Reflections("com.app.workflow.step");
 
         Set<Class<?>> stepClasses =
                 reflections.getTypesAnnotatedWith(Step.class);
@@ -42,6 +40,7 @@ public class StepRegistry {
                                 .newInstance();
 
                 steps.put(annotation.stepName(), instance);
+                log.info("Loaded step: {}", clazz.getName());
 
             } catch (Exception e) {
                 log.error("Failed to load step: {}",
