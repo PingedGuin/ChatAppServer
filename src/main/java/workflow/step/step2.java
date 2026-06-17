@@ -1,14 +1,16 @@
-package workflow.service;
+package workflow.step;
 
 import workflow.data.model.StepResult;
 import workflow.data.model.WorkflowContext;
 import workflow.data.model.WorkflowDefinition;
 import workflow.data.model.WorkflowStep;
+import workflow.step.annotation.Step;
 
-public class CreateChannelStep
-        implements WorkflowStep {
+@Step(stepName = "step2")
+public class step2 implements WorkflowStep {
     @Override
     public StepResult execute(WorkflowDefinition definition, WorkflowContext context) {
-        return null;
+        System.out.println("Step 2 executed");
+        return StepResult.success();
     }
 }

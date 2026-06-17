@@ -1,5 +1,8 @@
 package workflow.data.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -16,9 +19,10 @@ import java.util.List;
  * - `name`: The name of the workflow, serving as a descriptive label.
  * - `steps`: A list of {@code WorkflowStep} instances defining the steps of the workflow.
  */
+@AllArgsConstructor
+@Data
 public class WorkflowDefinition {
     private String id;
     private String name;
-    private List<WorkflowStep> steps;
-
+    private final List<String> steps;
 }
