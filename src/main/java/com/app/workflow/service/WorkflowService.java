@@ -4,12 +4,18 @@ import com.app.policy.PolicyEngine;
 import com.app.workflow.data.dto.StartWorkflowRequest;
 import com.app.workflow.data.model.WorkflowDefinition;
 import com.app.workflow.repository.WorkflowDefinitionRepository;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WorkflowService {
     private final PolicyEngine policyEngine;
     private final WorkflowDefinitionRepository workflowDefinitionRepository;
+    private final Cache<String, WorkflowDefinition> workflowDefinitionCache = Caffeine.newBuilder()
+            .maximumSize(100_000)
+            .expireAfterWrite(10, java.util.concurrent.TimeUnit.MINUTES)
+            .build();
 
     public WorkflowService(PolicyEngine policyEngine, WorkflowDefinitionRepository workflowDefinitionRepository) {
         this.policyEngine = policyEngine;
