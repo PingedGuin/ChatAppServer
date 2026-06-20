@@ -1,10 +1,12 @@
 package com.app.workflow.repository;
 
-import com.app.workflow.data.entity.StepEntity;
+import com.app.workflow.data.entity.WorkflowDefinitionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface WorkflowDefinitionRepository extends JpaRepository <StepEntity,Long>{
+import java.util.Optional;
 
+@Repository
+public interface WorkflowDefinitionRepository extends JpaRepository <WorkflowDefinitionEntity,Long>{
+    Optional<WorkflowDefinitionEntity> findByName(String name);
 }

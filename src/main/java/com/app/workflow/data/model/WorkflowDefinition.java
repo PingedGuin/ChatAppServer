@@ -22,7 +22,6 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class WorkflowDefinition {
-    private String id;
     private String name;
     private final List<String> steps;
 }

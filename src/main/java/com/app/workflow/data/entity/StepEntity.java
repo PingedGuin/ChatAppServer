@@ -1,9 +1,11 @@
 package com.app.workflow.data.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "workflow_steps")
+@Data
 public class StepEntity {
 
     @Id
