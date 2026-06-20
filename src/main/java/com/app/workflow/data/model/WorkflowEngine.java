@@ -3,6 +3,8 @@ package com.app.workflow.data.model;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Slf4j
 public class WorkflowEngine {
@@ -13,24 +15,38 @@ public class WorkflowEngine {
         this.registry = registry;
     }
 
-    public void execute(WorkflowDefinition definition, WorkflowContext context) {
+    public void execute(
+            WorkflowDefinition definition,
+            WorkflowInstance instance,
+            WorkflowContext context) {
 
-        for (String stepName : definition.getSteps()) {
+        List<String> steps = definition.getSteps();
+
+        for (int i = instance.getCurrentStep(); i < steps.size(); i++) {
+
+            String stepName = steps.get(i);
+
             log.info("Executing step: {}", stepName);
+
             WorkflowStep step = registry.get(stepName);
 
             if (step == null) {
-                System.out.println("Step not found: " + stepName);
+                log.error("Step not found: {}", stepName);
                 break;
             }
 
             StepResult result = step.execute(definition, context);
 
-            if (result.getStatus() == StepStatus.STOPPED) {
-                log.info("Workflow stopped at step: {}", stepName);
-                break;
+            if (result.getStatus() == StepStatus.FAILED) {
+                instance.setCurrentStep(i);
+                instance.setStatus(WorkflowStatus.FAILED);
+                return;
             }
+
+            instance.setCurrentStep(i + 1);
         }
+
+        instance.setStatus(WorkflowStatus.COMPLETED);
         log.info("Workflow completed");
     }
 }

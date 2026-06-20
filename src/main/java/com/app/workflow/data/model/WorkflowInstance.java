@@ -1,5 +1,7 @@
 package com.app.workflow.data.model;
 
+import lombok.Data;
+
 import java.util.UUID;
 
 /**
@@ -15,9 +17,53 @@ import java.util.UUID;
  * - `currentStep`: The index of the step currently being executed, starting from zero.
  *   This field is updated as the workflow progresses through its steps.
  */
+@Data
 public class WorkflowInstance {
+
     private UUID id;
-    private String workflowId; // definition id
+    private Long workflowId;
     private WorkflowStatus status;
     private int currentStep;
+
+    private WorkflowInstance(Builder builder) {
+        this.id = builder.id;
+        this.workflowId = builder.workflowId;
+        this.status = builder.status;
+        this.currentStep = builder.currentStep;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private UUID id;
+        private Long workflowId;
+        private WorkflowStatus status;
+        private int currentStep;
+
+        public Builder id(UUID id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder workflowId(Long workflowId) {
+            this.workflowId = workflowId;
+            return this;
+        }
+
+        public Builder status(WorkflowStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder currentStep(int currentStep) {
+            this.currentStep = currentStep;
+            return this;
+        }
+
+        public WorkflowInstance build() {
+            return new WorkflowInstance(this);
+        }
+    }
 }
