@@ -1,11 +1,11 @@
 package com.app.workflow.data.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 
 @Entity
 @Table(name = "workflow_steps")
-@Data
+@Getter
 public class StepEntity {
 
     @Id
@@ -19,4 +19,5 @@ public class StepEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workflow_id")
     private WorkflowDefinitionEntity workflow;
+
 }
