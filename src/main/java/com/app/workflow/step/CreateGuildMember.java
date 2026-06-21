@@ -4,11 +4,13 @@ import com.app.workflow.data.model.step.StepResult;
 import com.app.workflow.data.model.workflow.WorkflowContext;
 import com.app.workflow.data.model.workflow.WorkflowDefinition;
 import com.app.workflow.data.model.workflow.WorkflowStep;
+import com.app.workflow.annotation.Step;
 
-public class CreateChannelStep
-        implements WorkflowStep {
+@Step(stepName = "CreateGuildMember")
+public class CreateGuildMember implements WorkflowStep {
     @Override
     public StepResult execute(WorkflowDefinition definition, WorkflowContext context) {
-        return StepResult.failure("Not implemented");
+        System.out.println("Step 2 executed");
+        return StepResult.success();
     }
 }

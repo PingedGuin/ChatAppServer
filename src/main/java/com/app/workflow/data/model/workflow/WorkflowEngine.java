@@ -1,5 +1,9 @@
-package com.app.workflow.data.model;
+package com.app.workflow.data.model.workflow;
 
+import com.app.workflow.data.model.step.StepDefinition;
+import com.app.workflow.data.model.step.StepRegistry;
+import com.app.workflow.data.model.step.StepResult;
+import com.app.workflow.data.model.step.StepStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

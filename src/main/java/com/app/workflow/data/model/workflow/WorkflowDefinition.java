@@ -1,5 +1,6 @@
-package com.app.workflow.data.model;
+package com.app.workflow.data.model.workflow;
 
+import com.app.workflow.data.model.step.StepDefinition;
 import lombok.Getter;
 
 import java.util.List;
