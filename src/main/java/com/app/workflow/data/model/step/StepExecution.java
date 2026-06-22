@@ -12,7 +12,7 @@ import java.time.Instant;
  * of a workflow step.
  *
  * Fields:
- * - `stepName`: The name of the step being executed. Typically corresponds to the step's
+ * - `StepName`: The name of the step being executed. Typically corresponds to the step's
  *   definition within the workflow.
  * - `status`: The current status of the step's execution. The possible values are defined in
  *   the {@code StepStatus} enumeration, such as SUCCESS, FAILED, SKIPPED, etc.
