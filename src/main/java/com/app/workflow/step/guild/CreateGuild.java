@@ -7,7 +7,7 @@ import com.app.workflow.data.model.workflow.WorkflowStep;
 import com.app.workflow.annotation.Step;
 import com.app.workflow.step.StepName;
 
-@Step(stepName = StepName.CREATE_GUILD)
+@Step(name = StepName.CREATE_GUILD)
 public class CreateGuild implements WorkflowStep {
     @Override
     public StepResult execute(WorkflowDefinition definition, WorkflowContext context) {

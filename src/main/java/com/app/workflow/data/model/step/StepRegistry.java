@@ -1,6 +1,7 @@
 package com.app.workflow.data.model.step;
 
 import com.app.workflow.data.model.workflow.WorkflowStep;
+import com.app.workflow.step.StepName;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ import java.util.Set;
 @Component
 @Slf4j
 public class StepRegistry {
-    private final Map<String, WorkflowStep> steps = new HashMap<>();
+    private final Map<StepName, WorkflowStep> steps = new HashMap<>();
 
     public StepRegistry() {
         loadSteps();
@@ -41,7 +42,7 @@ public class StepRegistry {
                                 .getDeclaredConstructor()
                                 .newInstance();
 
-                steps.put(annotation.stepName(), instance);
+                steps.put(annotation.name(), instance);
                 log.info("Loaded step: {}", clazz.getName());
 
             } catch (Exception e) {
@@ -51,7 +52,7 @@ public class StepRegistry {
         }
     }
 
-    public void register(String name, WorkflowStep step) {
+    public void register(StepName name, WorkflowStep step) {
         steps.put(name, step);
     }
 

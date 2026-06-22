@@ -69,7 +69,7 @@ public class MemberEntity {
             joinColumns = @JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<RoleEntity> roles = new ArrayList<>();
+    private List<RoleEntity> roles;
 
     @PrePersist
     public void onCreate() {
