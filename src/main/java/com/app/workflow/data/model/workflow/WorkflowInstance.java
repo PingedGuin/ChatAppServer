@@ -19,7 +19,6 @@ import java.util.UUID;
  */
 @Data
 public class WorkflowInstance {
-
     private UUID id;
     private Long workflowId;
     private WorkflowStatus status;
