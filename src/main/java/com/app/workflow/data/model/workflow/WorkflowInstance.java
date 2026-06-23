@@ -8,14 +8,14 @@ import java.util.UUID;
  * Represents an instance of a workflow, tracking its state and progress as it
  * executes through its defined steps. A workflow instance is created based on
  * a workflow definition and provides information about the current execution state.
- *
+ * <p>
  * Fields:
  * - `id`: A unique identifier for the workflow instance.
  * - `workflowId`: The identifier of the associated workflow definition.
  * - `status`: The current status of the workflow instance. Possible statuses are
- *   defined in the {@link WorkflowStatus} enumeration.
+ * defined in the {@link WorkflowStatus} enumeration.
  * - `currentStep`: The index of the step currently being executed, starting from zero.
- *   This field is updated as the workflow progresses through its steps.
+ * This field is updated as the workflow progresses through its steps.
  */
 @Data
 public class WorkflowInstance {
