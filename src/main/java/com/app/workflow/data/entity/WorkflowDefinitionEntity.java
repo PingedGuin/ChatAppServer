@@ -23,6 +23,9 @@ public class WorkflowDefinitionEntity {
     @Column(unique = true, nullable = false, updatable = false)
     private UUID workflowCode;
 
+    @Column(name = "version" ,nullable = false)
+    private int version;
+
     @OneToMany(
             mappedBy = "workflow",
             fetch = FetchType.LAZY,
@@ -37,5 +40,6 @@ public class WorkflowDefinitionEntity {
         if (workflowCode == null) {
             workflowCode = UUID.randomUUID();
         }
+        version = 1;
     }
 }

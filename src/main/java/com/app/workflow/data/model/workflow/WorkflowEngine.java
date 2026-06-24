@@ -40,7 +40,7 @@ public class WorkflowEngine {
                 return;
             }
 
-            StepResult result = step.execute(definition, context);
+            StepResult result = step.execute(definition, context,instance);
 
             if (result.getStatus() == StepStatus.FAILED) {
                 instance.setCurrentStep(i);

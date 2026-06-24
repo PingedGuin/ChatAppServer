@@ -25,12 +25,14 @@ public class WorkflowDefinition {
     private final UUID workflowCode;
     private final Long workflowId;
     private final String name;
+    private final int version;
     private final List<StepDefinition> steps;
 
-    public WorkflowDefinition(UUID workflowCode, Long workflowId, String name, List<StepDefinition> steps) {
+    public WorkflowDefinition(UUID workflowCode, Long workflowId, String name, int version, List<StepDefinition> steps) {
         this.workflowCode = workflowCode;
         this.workflowId = workflowId;
         this.name = name;
+        this.version = version;
         this.steps = List.copyOf(steps);
     }
 }

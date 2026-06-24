@@ -18,6 +18,7 @@ import com.app.workflow.data.model.step.StepResult;
 public interface WorkflowStep {
     StepResult execute(
             WorkflowDefinition definition,
-            WorkflowContext context
+            WorkflowContext context,
+            WorkflowInstance instance
     );
 }
