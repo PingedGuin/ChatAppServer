@@ -6,6 +6,7 @@ import com.app.workflow.data.entity.WorkflowDefinitionEntity;
 import com.app.workflow.data.model.step.StepDefinition;
 import com.app.workflow.data.model.workflow.*;
 import com.app.workflow.repository.WorkflowDefinitionRepository;
+import com.app.workflow.step.StepName;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class WorkflowService {
     private final WorkflowDefinitionRepository workflowDefinitionRepository;
     // private final workflowInstanceRepository workflowInstanceRepository;
     private final WorkflowEngine workflowEngine;
-    private final Cache<String, WorkflowDefinition> workflowDefinitionCache = Caffeine.newBuilder()
+    private final Cache<StepName, WorkflowDefinition> workflowDefinitionCache = Caffeine.newBuilder()
             .maximumSize(100_000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
@@ -42,11 +43,8 @@ public class WorkflowService {
         return null;
     }
 
-    public WorkflowDefinition loadWorkflow(String workflowName) {
-        if (workflowDefinitionCache.getIfPresent(workflowName) != null)
-            return workflowDefinitionCache.getIfPresent(workflowName);
-
-        WorkflowDefinitionEntity definitionEntity = workflowDefinitionRepository.findByName(workflowName).orElseThrow(
+    public WorkflowDefinition loadWorkflow(StepName workflowName) {
+        WorkflowDefinitionEntity definitionEntity = workflowDefinitionRepository.findByName(String.valueOf(workflowName)).orElseThrow(
                 () -> new RuntimeException("Workflow not found: " + workflowName));
 
         var definition = toDefinition(definitionEntity);

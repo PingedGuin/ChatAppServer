@@ -1,8 +1,6 @@
 package com.app.guild.service;
 
-import com.app.event.guild.GuildCreatedEvent;
 import com.app.guild.data.dto.guild.GuildConfigDto;
-import com.app.guild.data.dto.guild.GuildCreate;
 import com.app.guild.data.dto.guild.GuildDetailsDto;
 import com.app.guild.data.entity.GuildEntity;
 import com.app.guild.data.dto.guild.GuildInfoDto;
@@ -10,13 +8,11 @@ import com.app.guild.mapping.GuildMapper;
 import com.app.guild.repository.GuildRepository;
 import com.app.role.dto.RoleDto;
 import com.app.member.dto.MemberPermissionDto;
-import com.app.user.data.entity.UserEntity;
 import com.app.user.service.UserService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -97,22 +93,6 @@ public class GuildService {
         return false;
     }
 
-    @Transactional
-    public GuildInfoDto createGuild(GuildCreate guildCreate) {
-        if (guildCreate == null) throw new IllegalArgumentException("Guild Create cannot be null");
-
-        UserEntity owner = userService.getUserEntityById(guildCreate.getOwnerId());
-
-        GuildEntity guild = GuildEntity.builder()
-                .name(guildCreate.getName())
-                .owner(owner)
-                .build();
-
-        GuildEntity saved = guildRepository.save(guild);
-
-        eventPublisher.publishEvent(new GuildCreatedEvent(saved.getId(), owner.getId()));
-        return mapper.toDto(saved);
-    }
 
     public GuildEntity getGuildEntityById(Long guildId) {
         if (guildId == null) throw new IllegalArgumentException("Guild Id cannot be null");

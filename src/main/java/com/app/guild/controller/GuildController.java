@@ -1,8 +1,8 @@
 package com.app.guild.controller;
 
-import com.app.guild.data.dto.guild.GuildCreate;
 import com.app.guild.data.dto.guild.GuildCreateRequest;
 import com.app.guild.data.dto.guild.GuildInfoDto;
+import com.app.guild.service.GuildApplicationService;
 import com.app.guild.service.GuildService;
 import com.app.member.service.MemberService;
 import com.app.user.data.dto.UserDto;
@@ -18,10 +18,13 @@ import java.util.List;
 public class GuildController {
     private final MemberService memberService;
     private final GuildService guildService;
+    private final GuildApplicationService guildApplicationService;
 
-    public GuildController(MemberService memberService, GuildService guildService) {
+
+    public GuildController(MemberService memberService, GuildService guildService, GuildApplicationService guildApplicationService) {
         this.memberService = memberService;
         this.guildService = guildService;
+        this.guildApplicationService = guildApplicationService;
     }
 
     @GetMapping("/api/guild/guilds")
@@ -39,14 +42,13 @@ public class GuildController {
             @AuthenticationPrincipal UserPrincipal user,
             @RequestBody GuildCreateRequest request) {
 
-        GuildCreate dto = new GuildCreate(
-                user.getId(),
-                request.getName()
-        );
+//
+//        GuildInfoDto created = guildService.createGuild(dto);
 
-        GuildInfoDto created = guildService.createGuild(dto);
+       // return ResponseEntity.ok(created);
+        guildApplicationService.handleGuildCreation(request);
 
-        return ResponseEntity.ok(created);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/api/guild/delete/{guildId}")
