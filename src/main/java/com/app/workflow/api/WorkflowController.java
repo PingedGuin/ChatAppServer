@@ -1,5 +1,6 @@
 package com.app.workflow.api;
 
+import com.app.guild.service.GuildApplicationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,19 +12,15 @@ import com.app.workflow.service.WorkflowService;
 @RestController
 @RequestMapping("/workflows")
 public class WorkflowController {
+    GuildApplicationService guildApplicationService;
 
-    private final WorkflowService workflowService;
-
-    public WorkflowController(WorkflowService workflowService) {
-        this.workflowService = workflowService;
+    public WorkflowController(GuildApplicationService guildApplicationService) {
+        this.guildApplicationService = guildApplicationService;
     }
 
     @PostMapping("/start")
     public ResponseEntity<String> start(@RequestBody StartWorkflowRequest request) {
 
-        String instanceId =
-                workflowService.startWorkflow(request);
-
-        return ResponseEntity.ok(instanceId);
+        return ResponseEntity.ok().build();
     }
 }
