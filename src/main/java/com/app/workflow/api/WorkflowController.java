@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.app.workflow.data.dto.StartWorkflowRequest;
-import com.app.workflow.service.WorkflowService;
+import com.app.workflow.data.dto.WorkflowStartRequest;
 
 @RestController
 @RequestMapping("/workflows")
@@ -19,7 +18,7 @@ public class WorkflowController {
     }
 
     @PostMapping("/start")
-    public ResponseEntity<String> start(@RequestBody StartWorkflowRequest request) {
+    public ResponseEntity<String> start(@RequestBody WorkflowStartRequest request) {
 
         return ResponseEntity.ok().build();
     }

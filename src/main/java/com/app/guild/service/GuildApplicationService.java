@@ -8,7 +8,7 @@ import com.app.member.service.MemberService;
 import com.app.role.service.RoleService;
 import com.app.user.data.entity.UserEntity;
 import com.app.user.service.UserService;
-import com.app.workflow.data.dto.StartWorkflowRequest;
+import com.app.workflow.data.dto.WorkflowStartRequest;
 import com.app.workflow.service.WorkflowService;
 import com.app.workflow.step.StepName;
 import org.springframework.stereotype.Service;
@@ -44,9 +44,11 @@ public class GuildApplicationService {
         memberService.save(member);
     }
     public void handleGuildCreation(GuildCreateRequest guildCreateContext) {
-        StartWorkflowRequest request = StartWorkflowRequest.builder()
-                .workflowName(StepName.CREATE_GUILD)
-                .build();
+        WorkflowStartRequest<GuildCreateRequest> request =
+                WorkflowStartRequest.<GuildCreateRequest>builder()
+                        .workflowName(StepName.CREATE_GUILD)
+                        .data(guildCreateContext)
+                        .build();
 
         workflowService.startWorkflow(request);
     }

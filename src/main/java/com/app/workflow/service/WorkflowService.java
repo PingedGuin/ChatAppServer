@@ -1,7 +1,7 @@
 package com.app.workflow.service;
 
 import com.app.policy.PolicyEngine;
-import com.app.workflow.data.dto.StartWorkflowRequest;
+import com.app.workflow.data.dto.WorkflowStartRequest;
 import com.app.workflow.data.entity.WorkflowDefinitionEntity;
 import com.app.workflow.data.model.step.StepDefinition;
 import com.app.workflow.data.model.workflow.*;
@@ -32,7 +32,7 @@ public class WorkflowService {
         this.workflowEngine = workflowEngine;
     }
 
-    public String startWorkflow(StartWorkflowRequest request) {
+    public String startWorkflow(WorkflowStartRequest request) {
         // todo ad policy engine here before starting workflow
         // policyEngine.check();
         var workflowDefinition = loadWorkflow(request.getWorkflowName());
