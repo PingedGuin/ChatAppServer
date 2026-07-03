@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class WorkflowResult<T> {
+public class WorkflowResult {
     private WorkflowStatus status;
     private WorkflowContext context;
     private final WorkflowError error;

@@ -12,8 +12,6 @@ import com.app.workflow.step.StepName;
 public class CreateGuildMember implements WorkflowStep {
     @Override
     public StepResult execute(WorkflowDefinition definition, WorkflowContext context, WorkflowInstance instance) {
-        var thing = context.getData().get("thing");
-        System.out.println("Step 2 executed " + thing);
         return StepResult.success();
     }
 }

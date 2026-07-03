@@ -2,6 +2,7 @@ package com.app.workflow.data.model.workflow;
 
 import lombok.Getter;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,12 +18,18 @@ import java.util.Map;
  * strings and values are generic objects. It enables flexible data sharing while
  * maintaining loose coupling between workflow steps.
  */
-@Getter
 public class WorkflowContext {
-    private Map<String, Object> data;
+    private final Map<String, Object> data;
+
+    public WorkflowContext(){
+        this.data = new HashMap<>();
+    }
 
     public void put(String key, Object value) {
         data.put(key, value);
     }
 
+    public <T> T get(String key, Class<T> type) {
+        return type.cast(data.get(key));
+    }
 }
