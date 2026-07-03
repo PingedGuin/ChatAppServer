@@ -2,6 +2,7 @@ package com.app.guild.service;
 
 import com.app.channel.service.ChannelService;
 import com.app.guild.data.dto.guild.GuildCreateRequest;
+import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.data.entity.GuildEntity;
 import com.app.member.entity.MemberEntity;
 import com.app.member.service.MemberService;
@@ -43,13 +44,13 @@ public class GuildApplicationService {
                 .build();
         memberService.save(member);
     }
-    public void handleGuildCreation(GuildCreateRequest guildCreateContext) {
+    public GuildInfoDto handleGuildCreation(GuildCreateRequest guildCreateContext) {
         WorkflowStartRequest<GuildCreateRequest> request =
                 WorkflowStartRequest.<GuildCreateRequest>builder()
                         .workflowName(StepName.CREATE_GUILD)
                         .data(guildCreateContext)
                         .build();
 
-        workflowService.startWorkflow(request);
+        return workflowService.startWorkflow(request);
     }
 }

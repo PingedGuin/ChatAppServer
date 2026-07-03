@@ -19,7 +19,7 @@ public class WorkflowEngine {
         this.registry = registry;
     }
 
-    public void execute(
+    public WorkflowResult execute(
             WorkflowDefinition definition,
             WorkflowInstance instance,
             WorkflowContext context) {
@@ -37,7 +37,7 @@ public class WorkflowEngine {
             if (step == null) {
                 log.error("Step not found: {}", currentStep.getStepName());
                 instance.setStatus(WorkflowStatus.FAILED);
-                return;
+                return null;
             }
 
             StepResult result = step.execute(definition, context,instance);
@@ -45,7 +45,7 @@ public class WorkflowEngine {
             if (result.getStatus() == StepStatus.FAILED) {
                 instance.setCurrentStep(i);
                 instance.setStatus(WorkflowStatus.FAILED);
-                return;
+                return null;
             }
 
             instance.setCurrentStep(i + 1);

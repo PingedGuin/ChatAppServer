@@ -1,6 +1,7 @@
 package com.app.workflow.service;
 
 import com.app.policy.PolicyEngine;
+import com.app.workflow.data.WorkflowData;
 import com.app.workflow.data.dto.WorkflowStartRequest;
 import com.app.workflow.data.entity.WorkflowDefinitionEntity;
 import com.app.workflow.data.model.step.StepDefinition;
@@ -32,20 +33,21 @@ public class WorkflowService {
         this.workflowEngine = workflowEngine;
     }
 
-    public String startWorkflow(WorkflowStartRequest request) {
-        // todo ad policy engine here before starting workflow
+    public <T extends WorkflowData> WorkflowResult startWorkflow(WorkflowStartRequest<T> request) {        // todo ad policy engine here before starting workflow
         // policyEngine.check();
         var workflowDefinition = loadWorkflow(request.getWorkflowName());
         var instance = startWorkflowInstance(workflowDefinition);
         //   workflowInstanceRepository.save(instance); //todo
 
-        workflowEngine.execute(workflowDefinition, instance, new WorkflowContext());
-        return null;
+        return workflowEngine.execute(workflowDefinition, instance, new WorkflowContext());
     }
 
     public WorkflowDefinition loadWorkflow(StepName workflowName) {
+        if (workflowDefinitionCache.getIfPresent(workflowName) != null)
+            return workflowDefinitionCache.getIfPresent(workflowName);
+
         WorkflowDefinitionEntity definitionEntity = workflowDefinitionRepository.findByName(String.valueOf(workflowName)).orElseThrow(
-                () -> new RuntimeException("Workflow not found: " + workflowName));
+                () -> new RuntimeException("Workflow not found: " + workflowName.name()));
 
         var definition = toDefinition(definitionEntity);
         workflowDefinitionCache.put(workflowName, definition);
