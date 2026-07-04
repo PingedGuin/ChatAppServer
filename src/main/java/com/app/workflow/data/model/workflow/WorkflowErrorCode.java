@@ -6,6 +6,7 @@ public enum WorkflowErrorCode {
     POLICY_DENIED,
     VALIDATION_FAILED,
     INTERNAL_ERROR,
-    NOT_IMPLEMENTED
+    NOT_IMPLEMENTED,
+    INVALID_DATA
 
 }
