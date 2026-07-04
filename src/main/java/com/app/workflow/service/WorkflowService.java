@@ -79,7 +79,7 @@ public class WorkflowService {
                 entity.getId(),
                 entity.getName(),
                 entity.getVersion()
-                ,steps
+                , steps
         );
     }
 

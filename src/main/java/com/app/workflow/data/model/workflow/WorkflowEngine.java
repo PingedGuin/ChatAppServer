@@ -38,14 +38,14 @@ public class WorkflowEngine {
                 instance.setStatus(WorkflowStatus.FAILED);
                 instance.setCurrentStep(i);
 
-                return new WorkflowResult(WorkflowStatus.FAILED,context,
+                return new WorkflowResult(WorkflowStatus.FAILED, context,
                         new WorkflowError(WorkflowErrorCode.STEP_NOT_FOUND,
                                 "Step not Found", currentStep.getStepName()
                         )
                 );
             }
 
-            StepResult result = step.execute(definition, context,instance);
+            StepResult result = step.execute(definition, context, instance);
 
             if (result.getStatus() == StepStatus.FAILED) {
                 instance.setStatus(WorkflowStatus.FAILED);
@@ -61,7 +61,7 @@ public class WorkflowEngine {
             instance.setCurrentStep(i + 1);
         }
         instance.setStatus(WorkflowStatus.COMPLETED);
-        return new WorkflowResult(WorkflowStatus.COMPLETED,context,null);
+        return new WorkflowResult(WorkflowStatus.COMPLETED, context, null);
     }
 
 }
