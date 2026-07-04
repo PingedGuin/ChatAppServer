@@ -1,4 +1,4 @@
-package com.app.workflow.step.member;
+package com.app.workflow.step.guild;
 
 import com.app.workflow.data.model.step.StepResult;
 import com.app.workflow.data.model.workflow.WorkflowContext;
@@ -8,10 +8,13 @@ import com.app.workflow.data.model.workflow.WorkflowStep;
 import com.app.workflow.annotation.Step;
 import com.app.workflow.step.StepName;
 
-@Step(name = StepName.CREATE_GUILD_MEMBER)
-public class CreateGuildMember implements WorkflowStep {
+@Step(name = StepName.CREATE_GUILD)
+public class CreateGuildStep implements WorkflowStep {
     @Override
     public StepResult execute(WorkflowDefinition definition, WorkflowContext context, WorkflowInstance instance) {
+        var thing = "hello";
+        context.put("thing", thing);
+        System.out.println("Step 1 executed");
         return StepResult.success();
     }
 }

@@ -27,5 +27,6 @@ public class WorkflowInstance {
     private Long workflowId;
     private WorkflowStatus status;
     private int currentStep;
+    private int retryCount;
 
 }

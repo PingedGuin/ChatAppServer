@@ -49,6 +49,8 @@ public class WorkflowEngine {
 
             if (result.getStatus() == StepStatus.FAILED) {
                 instance.setStatus(WorkflowStatus.FAILED);
+             //   instance.setRetryCount(instance.getRetryCount() + 1); // todo continue this :3
+
                 instance.setCurrentStep(i);
 
                 return new WorkflowResult(
