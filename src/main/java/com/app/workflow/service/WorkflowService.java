@@ -42,7 +42,7 @@ public class WorkflowService {
         //   workflowInstanceRepository.save(instance); //todo
 
         WorkflowContext context = new WorkflowContext();
-        context.put("request", request.getData());
+        context.put(WorkflowContextKey.CREATE_GUILD_REQUEST, request.getData());
 
         return workflowEngine.execute(
                 workflowDefinition,

@@ -6,11 +6,12 @@ import com.app.workflow.data.model.step.StepResult;
 import com.app.workflow.data.model.workflow.*;
 import com.app.workflow.step.StepName;
 
+
 @Step(name = StepName.VALIDATE_GUILD_REQUEST)
 public class ValidateGuildRequestStep implements WorkflowStep {
     @Override
     public StepResult execute(WorkflowDefinition definition, WorkflowContext context, WorkflowInstance instance) {
-        var request = context.get("request", GuildCreateRequest.class);
+        var request = context.get(WorkflowContextKey.CREATE_GUILD_REQUEST, GuildCreateRequest.class);
         if (!request.isValid()){
             return StepResult.failure(WorkflowError
                     .builder().code(WorkflowErrorCode.INVALID_DATA)

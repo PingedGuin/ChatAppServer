@@ -11,6 +11,7 @@ import com.app.role.service.RoleService;
 import com.app.user.data.entity.UserEntity;
 import com.app.user.service.UserService;
 import com.app.workflow.data.dto.WorkflowStartRequest;
+import com.app.workflow.data.model.workflow.WorkflowContextKey;
 import com.app.workflow.data.model.workflow.WorkflowResult;
 import com.app.workflow.data.model.workflow.WorkflowStatus;
 import com.app.workflow.service.WorkflowService;
@@ -63,7 +64,7 @@ public class GuildApplicationService {
         }
 
         GuildEntity guild =
-                result.getContext().get("guild", GuildEntity.class);
+                result.getContext().get(WorkflowContextKey.GUILD_CREATION_RESULT, GuildEntity.class);
 
         return guildMapper.toDto(guild);
     }
