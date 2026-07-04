@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class WorkflowError {
-    private final String code;
+    private final WorkflowErrorCode code;
 
     private final String message;
 

@@ -1,6 +1,7 @@
 package com.app.workflow.data.model.workflow;
 
 import com.app.workflow.data.model.step.StepDefinition;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.UUID;
  * - `steps`: A list of {@code WorkflowStep} instances defining the steps of the workflow.
  */
 @Getter
+@AllArgsConstructor
 public class WorkflowDefinition {
     private final UUID workflowCode;
     private final Long workflowId;
@@ -28,11 +30,4 @@ public class WorkflowDefinition {
     private final int version;
     private final List<StepDefinition> steps;
 
-    public WorkflowDefinition(UUID workflowCode, Long workflowId, String name, int version, List<StepDefinition> steps) {
-        this.workflowCode = workflowCode;
-        this.workflowId = workflowId;
-        this.name = name;
-        this.version = version;
-        this.steps = List.copyOf(steps);
-    }
 }

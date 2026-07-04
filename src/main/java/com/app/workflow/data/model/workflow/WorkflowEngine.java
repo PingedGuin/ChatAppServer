@@ -35,24 +35,33 @@ public class WorkflowEngine {
             WorkflowStep step = registry.get(currentStep.getStepName());
 
             if (step == null) {
-                log.error("Step not found: {}", currentStep.getStepName());
                 instance.setStatus(WorkflowStatus.FAILED);
-                return null;
+                instance.setCurrentStep(i);
+
+                return new WorkflowResult(WorkflowStatus.FAILED,context,
+                        new WorkflowError(WorkflowErrorCode.STEP_NOT_FOUND,
+                                "Step not Found", currentStep.getStepName()
+                        )
+                );
             }
 
             StepResult result = step.execute(definition, context,instance);
 
             if (result.getStatus() == StepStatus.FAILED) {
-                instance.setCurrentStep(i);
                 instance.setStatus(WorkflowStatus.FAILED);
-                return null;
+                instance.setCurrentStep(i);
+
+                return new WorkflowResult(
+                        WorkflowStatus.FAILED,
+                        context,
+                        result.getError()
+                );
             }
 
             instance.setCurrentStep(i + 1);
         }
-
         instance.setStatus(WorkflowStatus.COMPLETED);
-        log.info("Workflow completed");
+        return new WorkflowResult(WorkflowStatus.COMPLETED,context,null);
     }
 
 }

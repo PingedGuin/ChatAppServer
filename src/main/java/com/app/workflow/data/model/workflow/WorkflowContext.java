@@ -1,7 +1,5 @@
 package com.app.workflow.data.model.workflow;
 
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.Map;
 

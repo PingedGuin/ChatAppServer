@@ -41,7 +41,14 @@ public class WorkflowService {
         var instance = startWorkflowInstance(workflowDefinition);
         //   workflowInstanceRepository.save(instance); //todo
 
-        return workflowEngine.execute(workflowDefinition, instance, new WorkflowContext());
+        WorkflowContext context = new WorkflowContext();
+        context.put("request", request.getData());
+
+        return workflowEngine.execute(
+                workflowDefinition,
+                instance,
+                context
+        );
     }
 
     public WorkflowDefinition loadWorkflow(StepName workflowName) {
