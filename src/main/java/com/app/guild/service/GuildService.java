@@ -106,4 +106,8 @@ public class GuildService {
         guildEntityCache.put(guildId, entity);
         return entity;
     }
+
+    public void isNameReserved(String name) {
+
+    }
 }

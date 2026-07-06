@@ -11,7 +11,7 @@ import com.app.role.service.RoleService;
 import com.app.user.data.entity.UserEntity;
 import com.app.user.service.UserService;
 import com.app.workflow.data.dto.WorkflowStartRequest;
-import com.app.workflow.data.model.workflow.WorkflowContextKey;
+import com.app.workflow.data.model.workflow.context.WorkflowContextKey;
 import com.app.workflow.data.model.workflow.WorkflowResult;
 import com.app.workflow.data.model.workflow.WorkflowStatus;
 import com.app.workflow.service.WorkflowService;

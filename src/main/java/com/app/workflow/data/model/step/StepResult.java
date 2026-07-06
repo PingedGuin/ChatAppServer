@@ -1,6 +1,6 @@
 package com.app.workflow.data.model.step;
 
-import com.app.workflow.data.model.workflow.WorkflowError;
+import com.app.workflow.data.model.workflow.error.WorkflowError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

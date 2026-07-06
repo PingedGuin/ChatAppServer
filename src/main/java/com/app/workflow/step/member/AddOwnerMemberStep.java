@@ -1,7 +1,7 @@
 package com.app.workflow.step.member;
 
 import com.app.workflow.data.model.step.StepResult;
-import com.app.workflow.data.model.workflow.WorkflowContext;
+import com.app.workflow.data.model.workflow.context.WorkflowContext;
 import com.app.workflow.data.model.workflow.WorkflowDefinition;
 import com.app.workflow.data.model.workflow.WorkflowInstance;
 import com.app.workflow.data.model.workflow.WorkflowStep;

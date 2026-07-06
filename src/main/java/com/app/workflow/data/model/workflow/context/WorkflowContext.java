@@ -1,4 +1,4 @@
-package com.app.workflow.data.model.workflow;
+package com.app.workflow.data.model.workflow.context;
 
 import java.util.HashMap;
 import java.util.Map;

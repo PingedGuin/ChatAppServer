@@ -1,4 +1,4 @@
-package com.app.workflow.data.model.workflow;
+package com.app.workflow.data.model.workflow.error;
 
 public enum WorkflowErrorCode {
     STEP_NOT_FOUND,

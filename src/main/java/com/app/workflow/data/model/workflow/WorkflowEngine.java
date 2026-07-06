@@ -4,6 +4,9 @@ import com.app.workflow.data.model.step.StepDefinition;
 import com.app.workflow.data.model.step.StepRegistry;
 import com.app.workflow.data.model.step.StepResult;
 import com.app.workflow.data.model.step.StepStatus;
+import com.app.workflow.data.model.workflow.context.WorkflowContext;
+import com.app.workflow.data.model.workflow.error.WorkflowError;
+import com.app.workflow.data.model.workflow.error.WorkflowErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

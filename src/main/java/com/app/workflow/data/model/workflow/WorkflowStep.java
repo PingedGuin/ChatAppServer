@@ -1,6 +1,7 @@
 package com.app.workflow.data.model.workflow;
 
 import com.app.workflow.data.model.step.StepResult;
+import com.app.workflow.data.model.workflow.context.WorkflowContext;
 
 /**
  * Represents a single step in the workflow execution process. Each step defines a

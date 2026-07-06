@@ -1,4 +1,4 @@
-package com.app.workflow.data.model.workflow;
+package com.app.workflow.data.model.workflow.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

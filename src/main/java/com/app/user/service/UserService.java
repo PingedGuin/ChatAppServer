@@ -98,4 +98,7 @@ public class UserService {
 
         return user;
     }
+
+    public void checkGuildLimits(Long ownerId) {
+    }
 }
