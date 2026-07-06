@@ -7,6 +7,7 @@ public enum WorkflowErrorCode {
     VALIDATION_FAILED,
     INTERNAL_ERROR,
     NOT_IMPLEMENTED,
-    INVALID_DATA
+    INVALID_DATA,
+    REACHED_GUILD_LIMIT
 
 }

@@ -66,6 +66,9 @@ public class UserEntity {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "guild_count")
+    private Integer guildCount;
+
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();

@@ -4,59 +4,39 @@ import com.app.workflow.data.model.workflow.WorkflowStep;
 import com.app.workflow.step.StepName;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import com.app.workflow.annotation.Step;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Component
 @Slf4j
 public class StepRegistry {
+
     private final Map<StepName, WorkflowStep> steps = new HashMap<>();
 
-    public StepRegistry() {
-        loadSteps();
-    }
+    public StepRegistry(List<WorkflowStep> stepBeans) {
 
-    private void loadSteps() {
+        for (WorkflowStep step : stepBeans) {
 
-        Reflections reflections =
-                new Reflections("com.app.workflow.step");
+            Step annotation = step.getClass().getAnnotation(Step.class);
 
-        Set<Class<?>> stepClasses =
-                reflections.getTypesAnnotatedWith(Step.class);
-
-        for (Class<?> clazz : stepClasses) {
-            if (!WorkflowStep.class.isAssignableFrom(clazz)) {
-                log.error("Invalid step: {}", clazz.getName());
-                continue;
+            if (annotation == null) {
+                throw new IllegalStateException(
+                        "Missing @Step on class: " + step.getClass().getName()
+                );
             }
-            try {
-                Step annotation =
-                        clazz.getAnnotation(Step.class);
+            steps.put(annotation.name(), step);
 
-                WorkflowStep instance =
-                        (WorkflowStep) clazz
-                                .getDeclaredConstructor()
-                                .newInstance();
-
-                steps.put(annotation.name(), instance);
-                log.info("Loaded step: {}", clazz.getName());
-
-            } catch (Exception e) {
-                log.error("Failed to load step: {}",
-                        clazz.getName(), e);
-            }
+            log.info("Loaded step: {}", step.getClass().getSimpleName());
         }
     }
 
-    public void register(StepName name, WorkflowStep step) {
-        steps.put(name, step);
-    }
-
-    public WorkflowStep get(String name) {
+    public WorkflowStep get(StepName name) {
         return steps.get(name);
     }
 }

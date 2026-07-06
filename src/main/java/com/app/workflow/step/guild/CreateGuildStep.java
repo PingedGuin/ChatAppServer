@@ -5,7 +5,9 @@ import com.app.workflow.data.model.workflow.*;
 import com.app.workflow.annotation.Step;
 import com.app.workflow.data.model.workflow.context.WorkflowContext;
 import com.app.workflow.step.StepName;
+import org.springframework.stereotype.Component;
 
+@Component
 @Step(name = StepName.CREATE_GUILD)
 public class CreateGuildStep implements WorkflowStep {
     @Override

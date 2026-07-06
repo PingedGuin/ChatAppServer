@@ -7,7 +7,9 @@ import com.app.workflow.data.model.workflow.context.WorkflowContext;
 import com.app.workflow.data.model.workflow.error.WorkflowError;
 import com.app.workflow.data.model.workflow.error.WorkflowErrorCode;
 import com.app.workflow.step.StepName;
+import org.springframework.stereotype.Component;
 
+@Component
 @Step(name = StepName.CREATE_DEFAULT_CHANNEL)
 public class CreateChannelStep implements WorkflowStep {
     @Override

@@ -1,5 +1,6 @@
 package com.app.workflow.data.entity;
 
+import com.app.workflow.step.StepName;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -12,7 +13,7 @@ public class StepEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "step_name")
-    private String stepName;
+    private StepName stepName;
     @Column(name = "step_order")
     private Integer stepOrder;
 

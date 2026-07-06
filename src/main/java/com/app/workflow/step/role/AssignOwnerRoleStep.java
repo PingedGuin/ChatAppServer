@@ -7,7 +7,9 @@ import com.app.workflow.data.model.workflow.WorkflowDefinition;
 import com.app.workflow.data.model.workflow.WorkflowInstance;
 import com.app.workflow.data.model.workflow.WorkflowStep;
 import com.app.workflow.step.StepName;
+import org.springframework.stereotype.Component;
 
+@Component
 @Step(name = StepName.ASSIGN_OWNER_ROLE)
 public class AssignOwnerRoleStep implements WorkflowStep {
     @Override

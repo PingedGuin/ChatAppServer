@@ -101,4 +101,9 @@ public class UserService {
 
     public void checkGuildLimits(Long ownerId) {
     }
+
+    public boolean reachedGuildsLimit(Long userId) {
+       int guildCount = userRepository.findGuildCountByUserId(userId);
+        return (guildCount >= 100);
+    }
 }

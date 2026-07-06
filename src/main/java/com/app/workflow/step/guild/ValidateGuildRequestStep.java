@@ -1,7 +1,6 @@
 package com.app.workflow.step.guild;
 
 import com.app.guild.data.dto.guild.GuildCreateRequest;
-import com.app.guild.service.GuildService;
 import com.app.user.service.UserService;
 import com.app.workflow.annotation.Step;
 import com.app.workflow.data.model.step.StepResult;
@@ -16,13 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 @Step(name = StepName.VALIDATE_GUILD_REQUEST)
 public class ValidateGuildRequestStep implements WorkflowStep {
-    private final GuildService guildService;
     private final UserService userService;
 
-    public ValidateGuildRequestStep(GuildService guildService, UserService userService) {
-        this.guildService = guildService;
+    public ValidateGuildRequestStep(UserService userService) {
         this.userService = userService;
     }
+
     @Override
     public StepResult execute(WorkflowDefinition definition, WorkflowContext context, WorkflowInstance instance) {
         var request = context.get(WorkflowContextKey.CREATE_GUILD_REQUEST, GuildCreateRequest.class);
@@ -33,8 +31,12 @@ public class ValidateGuildRequestStep implements WorkflowStep {
             );
         }
 
-        guildService.isNameReserved(request.getName());
-        userService.checkGuildLimits(request.getOwnerId());
+        if(userService.reachedGuildsLimit(request.getOwnerId())){
+            return StepResult.failure(WorkflowError
+                    .builder().code(WorkflowErrorCode.REACHED_GUILD_LIMIT)
+                    .build()
+            );
+        }
 
         return StepResult.success();
     }

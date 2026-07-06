@@ -1,5 +1,6 @@
 package com.app.workflow.data.model.workflow.error;
 
+import com.app.workflow.step.StepName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,6 @@ public class WorkflowError {
 
     private final String message;
 
-    private final String stepName;
+    private final StepName stepName;
 
 }
