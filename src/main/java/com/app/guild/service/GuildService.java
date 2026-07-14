@@ -8,6 +8,7 @@ import com.app.guild.mapping.GuildMapper;
 import com.app.guild.repository.GuildRepository;
 import com.app.role.dto.RoleDto;
 import com.app.member.dto.MemberPermissionDto;
+import com.app.user.data.entity.UserEntity;
 import com.app.user.service.UserService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -108,6 +109,18 @@ public class GuildService {
     }
 
     public GuildInfoDto createGuild(GuildInfoDto guildInfo) {
-        return null;
+        if (guildInfo == null) throw new IllegalArgumentException("Guild info cannot be null");
+        UserEntity owner = userService.getUserEntityById(guildInfo.getOwnerId());
+
+        GuildEntity entity = GuildEntity.builder()
+                .name(guildInfo.getGuildName())
+                .owner(owner).build();
+        guildRepository.save(entity);
+
+        return GuildInfoDto.builder()
+                .id(entity.getId())
+                .guildName(entity.getName())
+                .ownerId(owner.getId())
+                .build();
     }
-} // 120 x 148
+}
