@@ -43,13 +43,13 @@ public class MemberService {
 //                .collect(Collectors.toSet());
 //
 //
-//        MemberPermissionDto dto = new MemberPermissionDto();
-//        dto.setUserId(entity.getUserInfo().getId());
-//        dto.setGuildId(guildId);
-//        dto.setRoles(roles);
-//        dto.setRoleIds(roleIds);
+//        MemberPermissionDto context = new MemberPermissionDto();
+//        context.setUserId(entity.getUserInfo().getId());
+//        context.setGuildId(guildId);
+//        context.setRoles(roles);
+//        context.setRoleIds(roleIds);
 //
-//        return dto;
+//        return context;
 //    }
 
     public List<GuildInfoDto> getUserGuilds(Long userId) {

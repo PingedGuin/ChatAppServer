@@ -10,6 +10,7 @@ import com.app.workflow.data.model.workflow.context.WorkflowContextKey;
 import com.app.workflow.data.model.workflow.error.WorkflowError;
 import com.app.workflow.data.model.workflow.error.WorkflowErrorCode;
 import com.app.workflow.step.StepName;
+import com.app.workflow.step.guild.context.CreateGuildContext;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -37,6 +38,12 @@ public class ValidateGuildRequestStep implements WorkflowStep {
                     .build()
             );
         }
+
+        CreateGuildContext guildContext = CreateGuildContext
+                .builder().request(request)
+                .build();
+
+        context.put(WorkflowContextKey.GUILD_CONTEXT, guildContext);
         return StepResult.success();
     }
 }

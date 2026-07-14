@@ -15,8 +15,8 @@ public class RedisSubscriber {
 //    }
 //    public void onMessage(String message) {
 //        try {
-//            Message dto = objectMapper.readValue(message, Message.class);
-//            webSocketService.sendMessage(dto);
+//            Message context = objectMapper.readValue(message, Message.class);
+//            webSocketService.sendMessage(context);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }

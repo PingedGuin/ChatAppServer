@@ -42,7 +42,7 @@ public class GuildController {
             @AuthenticationPrincipal UserPrincipal user,
             @RequestBody GuildCreateRequest request) {
 
-//        GuildInfoDto created = guildService.createGuild(dto);
+//        GuildInfoDto created = guildService.createGuild(context);
 
        // return ResponseEntity.ok(created);
         GuildInfoDto guildInfoDto = guildApplicationService.handleGuildCreation(request);

@@ -36,14 +36,14 @@
 //    @Override
 //    protected void handleTextMessage(@NonNull WebSocketSession session, TextMessage message) {
 //        String payload = message.getPayload();
-//        Message dto;
+//        Message context;
 //        try {
-//            dto = objectMapper.readValue(payload, Message.class);
+//            context = objectMapper.readValue(payload, Message.class);
 //        } catch (Exception e) {
 //            log.error("Error parsing message: {}", payload, e);
 //            return;
 //        }
-//        messageService.handleSendMsgReq(dto);
+//        messageService.handleSendMsgReq(context);
 //    }
 //
 //    @Override

@@ -115,12 +115,12 @@ public class GuildService {
         GuildEntity entity = GuildEntity.builder()
                 .name(guildInfo.getGuildName())
                 .owner(owner).build();
-        guildRepository.save(entity);
+        GuildEntity savedEntity = guildRepository.save(entity);
 
         return GuildInfoDto.builder()
-                .id(entity.getId())
-                .guildName(entity.getName())
-                .ownerId(owner.getId())
+                .id(savedEntity.getId())
+                .guildName(savedEntity.getName())
+                .ownerId(savedEntity.getOwner().getId())
                 .build();
     }
 }
