@@ -47,12 +47,32 @@ public class WorkflowEngine {
                         )
                 );
             }
+            StepResult result;
 
-            StepResult result = step.execute(definition, context, instance);
+            try {
+                result = step.execute(definition, context, instance);
+
+            } catch (Exception e) {
+
+                log.error("Step {} failed", currentStep.getStepName(), e);
+
+                instance.setStatus(WorkflowStatus.FAILED);
+                instance.setCurrentStep(i);
+
+                return new WorkflowResult(
+                        WorkflowStatus.FAILED,
+                        context,
+                        new WorkflowError(
+                                WorkflowErrorCode.STEP_FAILED,
+                                e.getMessage(),
+                                currentStep.getStepName()
+                        )
+                );
+            }
 
             if (result.getStatus() == StepStatus.FAILED) {
                 instance.setStatus(WorkflowStatus.FAILED);
-             //   instance.setRetryCount(instance.getRetryCount() + 1); // todo continue this :3
+                //   instance.setRetryCount(instance.getRetryCount() + 1); // todo continue this :3
 
                 instance.setCurrentStep(i);
 

@@ -2,7 +2,6 @@ package com.app.workflow.step.guild;
 
 import com.app.guild.data.dto.guild.GuildCreateRequest;
 import com.app.guild.data.dto.guild.GuildInfoDto;
-import com.app.guild.service.GuildApplicationService;
 import com.app.guild.service.GuildService;
 import com.app.workflow.data.model.step.StepResult;
 import com.app.workflow.data.model.workflow.*;
@@ -16,11 +15,9 @@ import org.springframework.stereotype.Component;
 @Step(name = StepName.CREATE_GUILD)
 public class CreateGuildStep implements WorkflowStep {
     private final GuildService guildService;
-    private final GuildApplicationService guildApplicationService;
 
-    public CreateGuildStep(GuildService guildService, GuildApplicationService guildApplicationService) {
+    public CreateGuildStep(GuildService guildService) {
         this.guildService = guildService;
-        this.guildApplicationService = guildApplicationService;
     }
 
     @Override
@@ -32,8 +29,8 @@ public class CreateGuildStep implements WorkflowStep {
                 .build();
 
         GuildInfoDto guildInfo = guildService.createGuild(guildInfoDto);
-
         context.put(WorkflowContextKey.GUILD_INFO, guildInfo);
+
         return StepResult.success();
     }
 }

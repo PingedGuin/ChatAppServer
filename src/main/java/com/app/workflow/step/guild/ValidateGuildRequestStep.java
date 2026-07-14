@@ -24,14 +24,14 @@ public class ValidateGuildRequestStep implements WorkflowStep {
     @Override
     public StepResult execute(WorkflowDefinition definition, WorkflowContext context, WorkflowInstance instance) {
         var request = context.get(WorkflowContextKey.CREATE_GUILD_REQUEST, GuildCreateRequest.class);
-        if (!request.isValid()){
+        if (!request.isValid()) {
             return StepResult.failure(WorkflowError
                     .builder().code(WorkflowErrorCode.INVALID_DATA)
                     .build()
             );
         }
 
-        if(userService.reachedGuildsLimit(request.getOwnerId())){
+        if (userService.reachedGuildsLimit(request.getOwnerId())) {
             return StepResult.failure(WorkflowError
                     .builder().code(WorkflowErrorCode.REACHED_GUILD_LIMIT)
                     .build()
