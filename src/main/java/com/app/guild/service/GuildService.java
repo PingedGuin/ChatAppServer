@@ -106,4 +106,8 @@ public class GuildService {
         guildEntityCache.put(guildId, entity);
         return entity;
     }
-}
+
+    public GuildInfoDto createGuild(GuildInfoDto guildInfo) {
+        return null;
+    }
+} // 120 x 148

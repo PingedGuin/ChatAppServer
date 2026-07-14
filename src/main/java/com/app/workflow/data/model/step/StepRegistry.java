@@ -23,6 +23,7 @@ public class StepRegistry {
 
         for (WorkflowStep step : stepBeans) {
 
+
             Step annotation = step.getClass().getAnnotation(Step.class);
 
             if (annotation == null) {

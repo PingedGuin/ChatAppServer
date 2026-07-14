@@ -37,7 +37,6 @@ public class ValidateGuildRequestStep implements WorkflowStep {
                     .build()
             );
         }
-
         return StepResult.success();
     }
 }
