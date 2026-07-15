@@ -38,8 +38,7 @@ public class WorkflowEngine {
             WorkflowStep step = registry.get(currentStep.getStepName());
 
             if (step == null) {
-                instance.setStatus(WorkflowStatus.FAILED);
-                instance.setCurrentStep(i);
+                instance.fail(i);
 
                 return new WorkflowResult(WorkflowStatus.FAILED, context,
                         new WorkflowError(WorkflowErrorCode.STEP_NOT_FOUND,
@@ -55,10 +54,7 @@ public class WorkflowEngine {
             } catch (Exception e) {
 
                 log.error("Step {} failed", currentStep.getStepName(), e);
-
-                instance.setStatus(WorkflowStatus.FAILED);
-                instance.setCurrentStep(i);
-
+                instance.fail(i);
                 return new WorkflowResult(
                         WorkflowStatus.FAILED,
                         context,
@@ -71,10 +67,8 @@ public class WorkflowEngine {
             }
 
             if (result.getStatus() == StepStatus.FAILED) {
-                instance.setStatus(WorkflowStatus.FAILED);
                 //   instance.setRetryCount(instance.getRetryCount() + 1); // todo continue this :3
-
-                instance.setCurrentStep(i);
+                instance.fail(i);
 
                 return new WorkflowResult(
                         WorkflowStatus.FAILED,

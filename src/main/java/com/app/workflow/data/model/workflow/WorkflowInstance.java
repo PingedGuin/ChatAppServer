@@ -23,10 +23,27 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 public class WorkflowInstance {
+
     private UUID id;
     private Long workflowId;
     private WorkflowStatus status;
     private int currentStep;
     private int retryCount;
 
+    public void fail(int stepIndex) {
+        this.status = WorkflowStatus.FAILED;
+        this.currentStep = stepIndex;
+    }
+
+    public void complete() {
+        this.status = WorkflowStatus.COMPLETED;
+    }
+
+    public void moveToNextStep() {
+        this.currentStep++;
+    }
+
+    public void retry() {
+        this.retryCount++;
+    }
 }
