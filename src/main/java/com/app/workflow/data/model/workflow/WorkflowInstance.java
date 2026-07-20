@@ -6,18 +6,29 @@ import lombok.Data;
 
 import java.util.UUID;
 
+
 /**
- * Represents an instance of a workflow, tracking its state and progress as it
- * executes through its defined steps. A workflow instance is created based on
- * a workflow definition and provides information about the current execution state.
- * <p>
+ * Represents an individual instance of a workflow, tracking its execution state,
+ * progress, and retry information. Each workflow instance is associated with a
+ * specific workflow definition and undergoes a series of steps as dictated by
+ * the definition.
+ *
  * Fields:
  * - `id`: A unique identifier for the workflow instance.
- * - `workflowId`: The identifier of the associated workflow definition.
- * - `status`: The current status of the workflow instance. Possible statuses are
- * defined in the {@link WorkflowStatus} enumeration.
- * - `currentStep`: The index of the step currently being executed, starting from zero.
- * This field is updated as the workflow progresses through its steps.
+ * - `workflowId`: The identifier of the workflow definition this instance is based on.
+ * - `status`: The current status of the workflow instance, which can be one of
+ *   the states defined in the {@code WorkflowStatus} enum (e.g., PENDING, RUNNING, COMPLETED, FAILED).
+ * - `currentStep`: The index of the current step being executed in the workflow.
+ * - `retryCount`: The number of times the workflow instance has retried execution
+ *   after encountering failures.
+ *
+ * Behavior:
+ * - `fail(stepIndex)`: Marks the workflow instance as failed and sets the current step
+ *   to the specified index where the failure occurred.
+ * - `complete()`: Updates the status of the workflow instance to indicate that it has been completed successfully.
+ * - `moveToNextStep()`: Advances the workflow instance to the next step in the defined sequence.
+ * - `retry()`: Increments the retry counter to track the number of retries performed
+ *   for the workflow execution.
  */
 @Data
 @Builder
