@@ -19,7 +19,6 @@ public class TemplateChannelEntity {
     @Enumerated(EnumType.STRING)
     private ChannelType type;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "template_id")
     private GuildTemplateEntity template;

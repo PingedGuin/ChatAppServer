@@ -3,6 +3,8 @@ package com.app.template.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "guild_templates")
 @Data
