@@ -2,6 +2,8 @@ package com.app.channel.service;
 
 import com.app.channel.entity.ChannelEntity;
 import com.app.channel.repository.ChannelRepository;
+import com.app.common.id.SnowflakeIdService;
+import com.app.guild.data.entity.GuildEntity;
 import com.app.guild.permission.data.dto.ChannelPermsDto;
 import com.app.guild.permission.engine.PermissionService;
 import com.app.guild.service.GuildService;
@@ -9,6 +11,7 @@ import com.app.member.entity.MemberOverride;
 import com.app.message.data.dto.chat.command.ChatRequest;
 import com.app.message.service.WebSocketService;
 import com.app.role.entity.RoleOverride;
+import com.app.template.data.dto.ChannelType;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +29,14 @@ public class ChannelService {
     private final WebSocketService webSocketService;
     private final GuildService guildService;
     private final PermissionService permissionService;
+    private final SnowflakeIdService idService;
 
-    public ChannelService(ChannelRepository repository, WebSocketService webSocketService, GuildService guildService, PermissionService permissionService) {
+    public ChannelService(ChannelRepository repository, WebSocketService webSocketService, GuildService guildService, PermissionService permissionService, SnowflakeIdService idService) {
         this.channelRepository = repository;
         this.webSocketService = webSocketService;
         this.guildService = guildService;
         this.permissionService = permissionService;
+        this.idService = idService;
     }
 
     private final Cache<Long, ChannelEntity> cacheEntity = Caffeine.newBuilder()
@@ -101,4 +106,15 @@ public class ChannelService {
                 .removeIf(k -> k.startsWith("member:" + channelId + ":"));
     }
 
+    public void createChannel(Long guildId, String name, ChannelType type, Integer position) {
+        GuildEntity guild = guildService.getGuildEntityById(guildId);
+        ChannelEntity channel = ChannelEntity.builder()
+                .id(idService.generate())
+                .name(name)
+                .guild(guild)
+                .build();
+
+        channelRepository.save(channel);
+
+    }
 }
