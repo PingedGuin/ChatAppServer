@@ -3,6 +3,7 @@ package com.app.channel.entity;
 import com.app.guild.data.entity.GuildEntity;
 import com.app.member.entity.MemberOverride;
 import com.app.role.entity.RoleOverride;
+import com.app.template.data.dto.ChannelType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +29,11 @@ public class ChannelEntity {
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RoleOverride> roleOverrides = new ArrayList<>();
 
+    @Column(nullable = false)
+    ChannelType type;
+
+    Integer position;
+
     @Builder.Default
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MemberOverride> memberOverrides = new ArrayList<>();
@@ -35,4 +41,5 @@ public class ChannelEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guild_id", nullable = false)
     private GuildEntity guild;
+
 }
