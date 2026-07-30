@@ -20,9 +20,9 @@ public class TemplateService {
         this.channelService = channelService;
     }
 
-    public void applyTemplate(Long templateId, Long guildId) {
+    public void applyTemplate(String templateName, Long guildId) { //todo change temp name to enum
 
-        GuildTemplateEntity template = templateRepository.findById(templateId)
+        GuildTemplateEntity template = templateRepository.findByName(templateName)
                 .orElseThrow();
 
         for (TemplateChannelEntity channel : template.getChannels()) {

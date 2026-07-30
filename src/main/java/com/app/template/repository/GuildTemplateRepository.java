@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface GuildTemplateRepository extends JpaRepository<GuildTemplateEntity, Long> {
-    Optional<GuildTemplateEntity> findById(@NonNull Long id);
+    Optional<GuildTemplateEntity> findByName(String name);
 }

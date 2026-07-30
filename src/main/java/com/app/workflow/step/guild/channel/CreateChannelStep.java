@@ -1,6 +1,6 @@
 package com.app.workflow.step.guild.channel;
 
-import com.app.channel.service.ChannelService;
+import com.app.template.service.TemplateService;
 import com.app.workflow.annotation.Step;
 import com.app.workflow.data.model.step.StepResult;
 import com.app.workflow.data.model.workflow.*;
@@ -15,16 +15,18 @@ import org.springframework.stereotype.Component;
 @Component
 @Step(name = StepName.CREATE_DEFAULT_CHANNEL)
 public class CreateChannelStep implements WorkflowStep {
-    private final ChannelService channelService;
+    private final TemplateService templateService;
 
-    public CreateChannelStep(ChannelService channelService) {
-        this.channelService = channelService;
+    public CreateChannelStep(TemplateService templateService) {
+
+        this.templateService = templateService;
     }
 
     @Override
     public StepResult execute(WorkflowDefinition definition, WorkflowContext context, WorkflowInstance instance) {
         CreateGuildContext guild = context.get(WorkflowContextKey.GUILD_CONTEXT, CreateGuildContext.class);
 
+        templateService.applyTemplate(guild.getRequest().getGuildType(),guild.getGuild().getId());
         return StepResult.failure(WorkflowError
                 .builder().code(WorkflowErrorCode.NOT_IMPLEMENTED)
                 .build()
