@@ -1,6 +1,7 @@
 package com.app.template.service;
 
 import com.app.channel.service.ChannelService;
+import com.app.template.data.dto.TemplateName;
 import com.app.template.data.entity.GuildTemplateEntity;
 import com.app.template.data.entity.TemplateChannelEntity;
 import com.app.template.repository.GuildTemplateRepository;
@@ -20,9 +21,9 @@ public class TemplateService {
         this.channelService = channelService;
     }
 
-    public void applyTemplate(String templateName, Long guildId) { //todo change temp name to enum
+    public void applyTemplate(TemplateName templateName, Long guildId) { //todo change temp name to enum
 
-        GuildTemplateEntity template = templateRepository.findByName(templateName)
+        GuildTemplateEntity template = templateRepository.findByName(templateName.toString())
                 .orElseThrow();
 
         for (TemplateChannelEntity channel : template.getChannels()) {
